@@ -57,10 +57,6 @@ namespace Prueba_1_proyecto_vacaciones
 
             // Llenar UI
             FillDataGridView();
-            FillBarChart();
-            FillPieChart();
-            FillDoughnutChart();
-            FillLineChart();
 
             lblStatus.Text = $"OK  {_allItems.Count} registros de 5 fuentes.";
             Cursor = Cursors.Default;
@@ -75,59 +71,129 @@ namespace Prueba_1_proyecto_vacaciones
             if (_allItems.Count == 0) btnLoad_Click(sender, e);
 
             var sb = new StringBuilder();
+            var (stringFields, numericFields) = DataProcessor.DiscoverFields(_allItems);
 
-            // ── Ordenar laptops por precio (Insertion Sort) ────────────────
-            var laptops = DataProcessor.FilterLaptopsByMinPrice(_allItems, 0);
-            DataProcessor.InsertionSort(laptops);
-
-            sb.AppendLine("=== LAPTOPS ORDENADAS POR PRECIO (Insertion Sort) " +
-                          new string('=', 26));
-            foreach (var l in laptops)
-                sb.AppendLine($"  ${l.Price,9:F2}  {l.Company,-10} {l.TypeName}");
+            sb.AppendLine("╔══════════════════════════════════════════════════════════════╗");
+            sb.AppendLine("║              PROCESAMIENTO DINAMICO DE DATOS                ║");
+            sb.AppendLine("╚══════════════════════════════════════════════════════════════╝");
+            sb.AppendLine();
+            sb.AppendLine($"  Campos de texto:    {string.Join(", ", stringFields)}");
+            sb.AppendLine($"  Campos numericos:   {string.Join(", ", numericFields)}");
+            sb.AppendLine($"  Total registros:    {_allItems.Count}");
             sb.AppendLine();
 
-            // ── Filtro: laptops > $1000 ────────────────────────────────────
-            var expensive = DataProcessor.FilterLaptopsByMinPrice(_allItems, 1000);
-            sb.AppendLine($"=== LAPTOPS > $1000: {expensive.Count} resultados " +
-                          new string('=', 30));
-            foreach (var l in expensive)
-                sb.AppendLine($"  ${l.Price,9:F2}  {l.Company} {l.TypeName}");
-            sb.AppendLine();
+            // ── 1. Ordenar por primer campo numerico (Insertion Sort) ─────
+            if (numericFields.Count > 0)
+            {
+                string sortField = numericFields[0];
+                var sorted = new List<DataItem>(_allItems);
+                DataProcessor.DynamicSort(sorted, sortField);
 
-            // ── Filtro: temperatura > 75 °C ────────────────────────────────
-            var hotLogs = DataProcessor.FilterLogsByTemperature(_allItems, 75);
-            sb.AppendLine($"=== LOGS CON TEMPERATURA > 75 C: {hotLogs.Count} " +
-                          new string('=', 25));
-            foreach (var log in hotLogs)
-                sb.AppendLine($"  Min {log.Minuto:D2}  CPU:{log.UsoCPU:F1}%  " +
-                              $"Temp:{log.Temperatura:F1} C  FPS:{log.FPS:F1}");
-            sb.AppendLine();
+                sb.AppendLine($"=== ORDENADOS POR {sortField.ToUpper()} ASC (Insertion Sort) " +
+                              new string('=', 20));
+                int show = Math.Min(sorted.Count, 15);
+                for (int i = 0; i < show; i++)
+                    sb.AppendLine($"  {DataProcessor.GetNumericValue(sorted[i], sortField),10:F2}  " +
+                                  sorted[i].Label);
+                if (sorted.Count > show)
+                    sb.AppendLine($"  ... y {sorted.Count - show} registros mas");
+                sb.AppendLine();
+            }
 
-            // ── Ordenar videojuegos por ventas (Bubble Sort) ───────────────
-            var games = new List<DataItem>();
-            foreach (var item in _allItems)
-                if (item.Source == DataSource.JSON)
-                    games.Add(item);
-            DataProcessor.BubbleSort(games, ascending: false);
+            // ── 2. Filtro dinamico: campo numerico > percentil 75 ────────
+            if (numericFields.Count > 0)
+            {
+                string filterField = numericFields[0];
+                double threshold = DataProcessor.ComputeThreshold(
+                    _allItems, filterField, 0.75);
+                var filtered = DataProcessor.DynamicFilter(
+                    _allItems, filterField, threshold);
 
-            sb.AppendLine("=== VIDEOJUEGOS ORDENADOS POR VENTAS DESC (Bubble Sort) " +
-                          new string('=', 19));
-            foreach (var g in games)
-                sb.AppendLine($"  {g.Sales,8:F2}M  {g.Title}");
-            sb.AppendLine();
+                sb.AppendLine($"=== FILTRO: {filterField.ToUpper()} >= {threshold:F2} " +
+                              $"({filtered.Count} resultados) " + new string('=', 15));
+                int show = Math.Min(filtered.Count, 15);
+                for (int i = 0; i < show; i++)
+                    sb.AppendLine($"  {DataProcessor.GetNumericValue(filtered[i], filterField),10:F2}  " +
+                                  filtered[i].Label);
+                if (filtered.Count > show)
+                    sb.AppendLine($"  ... y {filtered.Count - show} registros mas");
+                sb.AppendLine();
+            }
 
-            // ── Duplicados ─────────────────────────────────────────────────
+            // ── 3. Segundo campo numerico desc (Bubble Sort) ─────────────
+            {
+                string sortField2 = numericFields.Count > 1
+                    ? numericFields[1]
+                    : numericFields[0];
+                var sorted2 = new List<DataItem>(_allItems);
+                DataProcessor.DynamicBubbleSort(sorted2, sortField2, ascending: false);
+
+                sb.AppendLine($"=== ORDENADOS POR {sortField2.ToUpper()} DESC (Bubble Sort) " +
+                              new string('=', 20));
+                int show = Math.Min(sorted2.Count, 15);
+                for (int i = 0; i < show; i++)
+                    sb.AppendLine($"  {DataProcessor.GetNumericValue(sorted2[i], sortField2),10:F2}  " +
+                                  sorted2[i].Label);
+                if (sorted2.Count > show)
+                    sb.AppendLine($"  ... y {sorted2.Count - show} registros mas");
+                sb.AppendLine();
+            }
+
+            // ── 4. Agrupacion dinamica con Dictionary ────────────────────
+            if (stringFields.Count > 0 && numericFields.Count > 0)
+            {
+                string catField = stringFields[0];
+                string valField = numericFields[0];
+
+                var summed = DataProcessor.DynamicGroupSum(
+                    _allItems, catField, valField);
+                sb.AppendLine($"=== SUMA DE {valField.ToUpper()} POR " +
+                              $"{catField.ToUpper()} (Dictionary) " +
+                              new string('=', 10));
+                foreach (var kv in summed)
+                    sb.AppendLine($"  {kv.Key,-20} {kv.Value,10:F2}");
+                sb.AppendLine();
+
+                var grouped = DataProcessor.DynamicGroupAvg(
+                    _allItems, catField, valField);
+
+                sb.AppendLine($"=== PROMEDIO DE {valField.ToUpper()} POR " +
+                              $"{catField.ToUpper()} (Dictionary) " +
+                              new string('=', 10));
+                foreach (var kv in grouped)
+                    sb.AppendLine($"  {kv.Key,-20} {kv.Value,10:F2}");
+                sb.AppendLine();
+
+                var counts = DataProcessor.DynamicGroupCount(_allItems, catField);
+                sb.AppendLine($"=== CONTEO POR {catField.ToUpper()} (Dictionary) " +
+                              new string('=', 20));
+                foreach (var kv in counts)
+                    sb.AppendLine($"  {kv.Key,-20} {kv.Value,5} registros");
+                sb.AppendLine();
+            }
+
+            // ── 5. Duplicados (HashSet) ──────────────────────────────────
             var dupes = DataProcessor.DetectDuplicates(_allItems);
             sb.AppendLine($"=== DUPLICADOS DETECTADOS: {dupes.Count} " +
                           new string('=', 30));
             if (dupes.Count == 0) sb.AppendLine("  (ninguno)");
-            foreach (var d in dupes) sb.AppendLine($"  {d}");
+            else
+            {
+                int show = Math.Min(dupes.Count, 20);
+                for (int i = 0; i < show; i++)
+                    sb.AppendLine($"  {dupes[i]}");
+                if (dupes.Count > show)
+                    sb.AppendLine($"  ... y {dupes.Count - show} mas");
+            }
             sb.AppendLine();
 
-            // ── Busqueda rapida por ID usando Dictionary ───────────────────
+            // ── 6. Busqueda rapida por ID (Dictionary) ───────────────────
             sb.AppendLine("=== BUSQUEDA RAPIDA POR ID (Dictionary) " +
                           new string('=', 25));
-            int[] sampleIds = [1, 1000, 2000, 3001, 4001];
+            var sampleIds = new List<int>();
+            int step = _allItems.Count > 5 ? _allItems.Count / 5 : 1;
+            for (int i = 0; i < _allItems.Count && sampleIds.Count < 5; i += step)
+                sampleIds.Add(_allItems[i].Id);
             foreach (int id in sampleIds)
             {
                 if (_idIndex.TryGetValue(id, out var found))
@@ -139,7 +205,7 @@ namespace Prueba_1_proyecto_vacaciones
 
             rtbConsole.Text = sb.ToString();
             tabControl.SelectedTab = tabConsole;
-            lblStatus.Text = "Procesamiento completado.";
+            lblStatus.Text = "Procesamiento dinamico completado.";
         }
 
         // ════════════════════════════════════════════════════════════════════
@@ -150,31 +216,9 @@ namespace Prueba_1_proyecto_vacaciones
         {
             if (_allItems.Count == 0) btnLoad_Click(sender, e);
 
-            var sb = new StringBuilder();
-
-            // Tablas alineadas
-            sb.AppendLine(ConsoleVisualizer.RenderTable(_allItems));
-
-            // Grafica ASCII: precio promedio por marca
-            var avgByBrand = DataProcessor.GetAvgPriceByBrand(_allItems);
-            sb.AppendLine(ConsoleVisualizer.RenderBarChart(
-                avgByBrand, "Precio Promedio por Marca (USD)"));
-
-            // Grafica ASCII: ventas por genero
-            var salesByGenre = DataProcessor.GetSalesByGenre(_allItems);
-            sb.AppendLine(ConsoleVisualizer.RenderBarChart(
-                salesByGenre, "Ventas por Genero (Millones)"));
-
-            // Grafica ASCII: stock por tipo
-            var stockByType = DataProcessor.GetStockByType(_allItems);
-            var stockDouble = new Dictionary<string, double>();
-            foreach (var kv in stockByType) stockDouble[kv.Key] = kv.Value;
-            sb.AppendLine(ConsoleVisualizer.RenderBarChart(
-                stockDouble, "Stock por Tipo de Componente"));
-
-            rtbConsole.Text = sb.ToString();
+            rtbConsole.Text = ConsoleVisualizer.RenderDynamicTable(_allItems);
             tabControl.SelectedTab = tabConsole;
-            lblStatus.Text = "Consola actualizada.";
+            lblStatus.Text = $"Consola: {_allItems.Count} registros mostrados.";
         }
 
         // ════════════════════════════════════════════════════════════════════
@@ -203,10 +247,6 @@ namespace Prueba_1_proyecto_vacaciones
             _lastImportedItems.Clear();
             _idIndex.Clear();
             FillDataGridView();
-            chartBar.Series.Clear();
-            chartPie.Series.Clear();
-            chartDoughnut.Series.Clear();
-            chartLine.Series.Clear();
             chartAutoBar.Series.Clear();
             chartAutoPie.Series.Clear();
             chartAutoDoughnut.Series.Clear();
@@ -247,17 +287,6 @@ namespace Prueba_1_proyecto_vacaciones
             if (connStr == null) return;
 
             ExportToDb("PostgreSQL", () => DatabaseExporter.ExportToPostgreSql(_allItems, connStr));
-        }
-
-        private void btnExportRemote_Click(object? sender, EventArgs e)
-        {
-            if (!HasData()) return;
-
-            var connStr = DatabaseExporter.ShowConnectionDialog("MariaDB", "3306");
-            if (connStr == null) return;
-
-            ExportToDb("Servidor Remoto MariaDB",
-                () => DatabaseExporter.ExportToRemoteMariaDb(_allItems, connStr));
         }
 
         private bool HasData()
@@ -354,6 +383,77 @@ namespace Prueba_1_proyecto_vacaciones
             // Ir a la tab de graficas generadas
             tabControl.SelectedTab = tabAutoChart;
             lblStatus.Text = $"Graficas generadas: {catLabel} → {valLabel} " +
+                             $"({groupedData.Count} categorias, {lineSeries.Count} series)";
+            Cursor = Cursors.Default;
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  BOTON: Grafica en Consola (ASCII)
+        // ════════════════════════════════════════════════════════════════════
+
+        private void btnChartConsole_Click(object? sender, EventArgs e)
+        {
+            if (_allItems.Count == 0)
+            {
+                MessageBox.Show(
+                    "No hay datos cargados.\n\n" +
+                    "Primero importe un archivo (CSV, JSON, XML o TXT)\n" +
+                    "usando los botones de la barra superior.",
+                    "Sin datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            Cursor = Cursors.WaitCursor;
+
+            var itemsForChart = _lastImportedItems.Count > 0
+                ? _lastImportedItems : _allItems;
+
+            var groupedData = DataProcessor.AutoDetectChartData(
+                itemsForChart, out var catLabel, out var valLabel);
+
+            var lineSeries = DataProcessor.AutoDetectLineSeries(itemsForChart);
+
+            if (groupedData.Count == 0 && lineSeries.Count == 0)
+            {
+                Cursor = Cursors.Default;
+                MessageBox.Show(
+                    "No se encontraron campos categóricos + numéricos\n" +
+                    "suficientes para generar gráficas en consola.",
+                    "Datos insuficientes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendLine("╔══════════════════════════════════════════════════════════════╗");
+            sb.AppendLine("║           GRAFICAS EN CONSOLA  (ASCII / Unicode)            ║");
+            sb.AppendLine("╚══════════════════════════════════════════════════════════════╝");
+            sb.AppendLine();
+
+            if (groupedData.Count > 0)
+            {
+                // Barras
+                sb.Append(ConsoleVisualizer.RenderBarChart(
+                    groupedData, $"{valLabel} por {catLabel} (Barras)"));
+
+                // Pastel / porcentajes
+                sb.Append(ConsoleVisualizer.RenderPieAscii(
+                    groupedData, $"{valLabel} por {catLabel} (Pastel)"));
+            }
+
+            if (lineSeries.Count > 0)
+            {
+                // Sparklines (compacto)
+                sb.Append(ConsoleVisualizer.RenderSparkLines(
+                    lineSeries, "Series Numericas (Sparklines)"));
+
+                // Grafica vertical detallada
+                sb.Append(ConsoleVisualizer.RenderVerticalLineChart(
+                    lineSeries, "Series Numericas (Lineas)"));
+            }
+
+            rtbConsole.Text = sb.ToString();
+            tabControl.SelectedTab = tabConsole;
+            lblStatus.Text = $"Graficas consola: {catLabel} → {valLabel} " +
                              $"({groupedData.Count} categorias, {lineSeries.Count} series)";
             Cursor = Cursors.Default;
         }
@@ -584,11 +684,6 @@ namespace Prueba_1_proyecto_vacaciones
                 else
                     FillDataGridView();
 
-                FillBarChart();
-                FillPieChart();
-                FillDoughnutChart();
-                FillLineChart();
-
                 lblStatus.Text =
                     $"Importados {newItems.Count} registros desde " +
                     $"'{Path.GetFileName(dlg.FileName)}'  " +
@@ -737,139 +832,6 @@ namespace Prueba_1_proyecto_vacaciones
             "DB"   => Color.FromArgb(255, 250, 210),
             _      => Color.White,
         };
-
-        // ════════════════════════════════════════════════════════════════════
-        //  GRAFICAS  –  Chart de WinForms DataVisualization
-        // ════════════════════════════════════════════════════════════════════
-
-        /// <summary>Grafica de Barras: precio promedio de laptops por marca.</summary>
-        private void FillBarChart()
-        {
-            chartBar.Series.Clear();
-            chartBar.Titles.Clear();
-
-            var area = chartBar.ChartAreas[0];
-            area.AxisX.Title = "Marca";
-            area.AxisY.Title = "Precio Promedio (USD)";
-            area.AxisX.LabelStyle.Angle = -30;
-            area.AxisX.MajorGrid.Enabled = false;
-
-            chartBar.Titles.Add("Precio Promedio de Laptops por Marca");
-
-            var series = chartBar.Series.Add("Precio");
-            series.ChartType = SeriesChartType.Column;
-            series.IsValueShownAsLabel = true;
-            series.LabelFormat = "${0:F0}";
-
-            var data = DataProcessor.GetAvgPriceByBrand(_allItems);
-            int idx = 0;
-            foreach (var kv in data)
-            {
-                int pt = series.Points.AddXY(kv.Key, kv.Value);
-                series.Points[pt].Color = GetColor(idx++);
-            }
-        }
-
-        /// <summary>Grafica de Pastel: porcentaje de ventas por genero.</summary>
-        private void FillPieChart()
-        {
-            chartPie.Series.Clear();
-            chartPie.Titles.Clear();
-            chartPie.Legends.Clear();
-
-            chartPie.Titles.Add("Ventas por Genero de Videojuego (Millones)");
-
-            var series = chartPie.Series.Add("Ventas");
-            series.ChartType = SeriesChartType.Pie;
-            series["PieLabelStyle"] = "Outside";
-            series.IsValueShownAsLabel = true;
-            series.LabelFormat = "{0:F1}M";
-
-            var data = DataProcessor.GetSalesByGenre(_allItems);
-            int idx = 0;
-            foreach (var kv in data)
-            {
-                int pt = series.Points.AddXY(kv.Key, kv.Value);
-                series.Points[pt].Color = GetColor(idx++);
-                series.Points[pt].LegendText = $"{kv.Key}: {kv.Value:F1}M";
-            }
-
-            chartPie.Legends.Add(new Legend { Docking = Docking.Bottom });
-        }
-
-        /// <summary>Grafica de Anillo: distribucion de stock por tipo.</summary>
-        private void FillDoughnutChart()
-        {
-            chartDoughnut.Series.Clear();
-            chartDoughnut.Titles.Clear();
-            chartDoughnut.Legends.Clear();
-
-            chartDoughnut.Titles.Add("Distribucion de Stock por Tipo de Componente");
-
-            var series = chartDoughnut.Series.Add("Stock");
-            series.ChartType = SeriesChartType.Doughnut;
-            series["DoughnutRadius"] = "40";
-            series.IsValueShownAsLabel = true;
-            series.LabelFormat = "{0} uds.";
-
-            var data = DataProcessor.GetStockByType(_allItems);
-            int idx = 0;
-            foreach (var kv in data)
-            {
-                int pt = series.Points.AddXY(kv.Key, kv.Value);
-                series.Points[pt].Color = GetColor(idx++);
-                series.Points[pt].LegendText = $"{kv.Key}: {kv.Value} uds.";
-            }
-
-            chartDoughnut.Legends.Add(new Legend { Docking = Docking.Bottom });
-        }
-
-        /// <summary>Grafica de Lineas: temperatura y FPS en el tiempo.</summary>
-        private void FillLineChart()
-        {
-            chartLine.Series.Clear();
-            chartLine.Titles.Clear();
-            chartLine.Legends.Clear();
-
-            var area = chartLine.ChartAreas[0];
-            area.AxisX.Title = "Minuto";
-            area.AxisY.Title = "Valor";
-            area.AxisX.Interval = 1;
-
-            chartLine.Titles.Add("Evolucion de Temperatura y FPS en el Tiempo");
-
-            // Serie Temperatura
-            var seriesTemp = chartLine.Series.Add("Temperatura (C)");
-            seriesTemp.ChartType = SeriesChartType.Line;
-            seriesTemp.BorderWidth = 3;
-            seriesTemp.Color = Color.OrangeRed;
-            seriesTemp.MarkerStyle = MarkerStyle.Circle;
-            seriesTemp.MarkerSize = 7;
-
-            // Serie FPS
-            var seriesFps = chartLine.Series.Add("FPS");
-            seriesFps.ChartType = SeriesChartType.Line;
-            seriesFps.BorderWidth = 3;
-            seriesFps.Color = Color.SteelBlue;
-            seriesFps.MarkerStyle = MarkerStyle.Diamond;
-            seriesFps.MarkerSize = 7;
-
-            // Extraer y ordenar logs por Minuto (Insertion Sort manual)
-            var logs = new List<DataItem>();
-            foreach (var item in _allItems)
-                if (item.Source == DataSource.TXT)
-                    logs.Add(item);
-
-            DataProcessor.InsertionSortBy(logs, item => item.Minuto);
-
-            foreach (var log in logs)
-            {
-                seriesTemp.Points.AddXY(log.Minuto, log.Temperatura);
-                seriesFps.Points.AddXY(log.Minuto, log.FPS);
-            }
-
-            chartLine.Legends.Add(new Legend { Docking = Docking.Top });
-        }
 
         // ── Paleta de colores para las graficas ────────────────────────────
 

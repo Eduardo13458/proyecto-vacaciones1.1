@@ -1,7 +1,6 @@
 using System.Data.Common;
 using System.Globalization;
 using System.Text;
-using System.Text.Json;
 using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using Npgsql;
@@ -119,69 +118,6 @@ namespace Prueba_1_proyecto_vacaciones.Data
             {
                 using var cmd = new NpgsqlCommand(insertSql, conn);
                 AddRowParameters(cmd.Parameters, columns, row);
-                cmd.ExecuteNonQuery();
-                count++;
-            }
-
-            return count;
-        }
-
-        // ════════════════════════════════════════════════════════════════════
-        //  ENVIO A SERVIDOR REMOTO (MARIADB)
-        // ════════════════════════════════════════════════════════════════════
-
-        private const string RemoteTableName = "registros_integrados";
-
-        /// <summary>
-        /// Exporta TODOS los DataItem a una tabla <c>registros_integrados</c>
-        /// en un servidor MariaDB remoto.  Cada registro se serializa a JSON.
-        /// </summary>
-        public static int ExportToRemoteMariaDb(List<DataItem> items, string connectionString)
-        {
-            if (items.Count == 0) return 0;
-
-            EnsureMySqlDatabase(connectionString);
-
-            using var conn = new MySqlConnection(connectionString);
-            conn.Open();
-
-            string createSql =
-                $"""
-                CREATE TABLE IF NOT EXISTS {RemoteTableName} (
-                    id_unico        VARCHAR(100) PRIMARY KEY,
-                    fuente_origen   VARCHAR(50),
-                    datos_completos TEXT
-                )
-                """;
-            using (var cmd = new MySqlCommand(createSql, conn))
-                cmd.ExecuteNonQuery();
-
-            using (var cmd = new MySqlCommand($"DELETE FROM {RemoteTableName}", conn))
-                cmd.ExecuteNonQuery();
-
-            int count = 0;
-            foreach (var item in items)
-            {
-                string idUnico = $"{item.Source}_{item.Id}";
-                string fuente = item.Source switch
-                {
-                    DataSource.CSV  => "Archivo_CSV",
-                    DataSource.JSON => "Archivo_JSON",
-                    DataSource.XML  => "Archivo_XML",
-                    DataSource.TXT  => "Archivo_TXT",
-                    DataSource.DB   => "Base_de_Datos",
-                    _               => "Desconocido"
-                };
-                string datos = JsonSerializer.Serialize(ItemToRow(item));
-
-                string insertSql =
-                    $"INSERT INTO {RemoteTableName} (id_unico, fuente_origen, datos_completos) " +
-                    $"VALUES (@id, @fuente, @datos)";
-
-                using var cmd = new MySqlCommand(insertSql, conn);
-                cmd.Parameters.AddWithValue("@id", idUnico);
-                cmd.Parameters.AddWithValue("@fuente", fuente);
-                cmd.Parameters.AddWithValue("@datos", datos);
                 cmd.ExecuteNonQuery();
                 count++;
             }

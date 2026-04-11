@@ -127,39 +127,7 @@ namespace Prueba_1_proyecto_vacaciones
             tabData.Controls.Add(dgvData);
             tabData.Controls.Add(pnlDataFilter);
 
-            // Tab 2 – Grafica de Barras (Laptops)
-            tabBar = new TabPage("Barras - Laptops");
-            chartBar = new Chart();
-            chartBar.Dock = DockStyle.Fill;
-            chartBar.BackColor = Color.White;
-            chartBar.ChartAreas.Add(new ChartArea("Default"));
-            tabBar.Controls.Add(chartBar);
-
-            // Tab 3 – Grafica de Pastel (Videojuegos)
-            tabPie = new TabPage("Pastel - Videojuegos");
-            chartPie = new Chart();
-            chartPie.Dock = DockStyle.Fill;
-            chartPie.BackColor = Color.White;
-            chartPie.ChartAreas.Add(new ChartArea("Default"));
-            tabPie.Controls.Add(chartPie);
-
-            // Tab 4 – Grafica de Anillo (Inventario)
-            tabDoughnut = new TabPage("Anillo - Inventario");
-            chartDoughnut = new Chart();
-            chartDoughnut.Dock = DockStyle.Fill;
-            chartDoughnut.BackColor = Color.White;
-            chartDoughnut.ChartAreas.Add(new ChartArea("Default"));
-            tabDoughnut.Controls.Add(chartDoughnut);
-
-            // Tab 5 – Grafica de Lineas (Temperatura)
-            tabLine = new TabPage("Lineas - Temperatura");
-            chartLine = new Chart();
-            chartLine.Dock = DockStyle.Fill;
-            chartLine.BackColor = Color.White;
-            chartLine.ChartAreas.Add(new ChartArea("Default"));
-            tabLine.Controls.Add(chartLine);
-
-            // Tab 6 – Consola ASCII
+            // Tab 2 – Consola ASCII
             tabConsole = new TabPage("Consola ASCII");
             rtbConsole = new RichTextBox();
             rtbConsole.Dock = DockStyle.Fill;
@@ -172,10 +140,6 @@ namespace Prueba_1_proyecto_vacaciones
             tabConsole.Controls.Add(rtbConsole);
 
             tabControl.TabPages.Add(tabData);
-            tabControl.TabPages.Add(tabBar);
-            tabControl.TabPages.Add(tabPie);
-            tabControl.TabPages.Add(tabDoughnut);
-            tabControl.TabPages.Add(tabLine);
             tabControl.TabPages.Add(tabConsole);
 
             // Tab 7 – Grafica Auto-generada
@@ -284,6 +248,17 @@ namespace Prueba_1_proyecto_vacaciones
             btnGenerateChart.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnGenerateChart.Click += btnGenerateChart_Click;
 
+            btnChartConsole = new Button();
+            btnChartConsole.Text = "📊 Grafica Consola";
+            btnChartConsole.Location = new Point(780, 8);
+            btnChartConsole.Size = new Size(155, 28);
+            btnChartConsole.BackColor = Color.FromArgb(104, 33, 122);
+            btnChartConsole.ForeColor = Color.White;
+            btnChartConsole.FlatStyle = FlatStyle.Flat;
+            btnChartConsole.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnChartConsole.Click += btnChartConsole_Click;
+
+            pnlFiles.Controls.Add(btnChartConsole);
             pnlFiles.Controls.Add(btnGenerateChart);
             pnlFiles.Controls.Add(btnClearData);
             pnlFiles.Controls.Add(btnImportTxt);
@@ -332,17 +307,6 @@ namespace Prueba_1_proyecto_vacaciones
             btnExportPostgre.FlatStyle = FlatStyle.Flat;
             btnExportPostgre.Click += btnExportPostgre_Click;
 
-            btnExportRemote = new Button();
-            btnExportRemote.Text = "📡 Enviar a Servidor";
-            btnExportRemote.Location = new Point(510, 7);
-            btnExportRemote.Size = new Size(160, 28);
-            btnExportRemote.BackColor = Color.FromArgb(180, 80, 0);
-            btnExportRemote.ForeColor = Color.White;
-            btnExportRemote.FlatStyle = FlatStyle.Flat;
-            btnExportRemote.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnExportRemote.Click += btnExportRemote_Click;
-
-            pnlExport.Controls.Add(btnExportRemote);
             pnlExport.Controls.Add(btnExportPostgre);
             pnlExport.Controls.Add(btnExportMariaDb);
             pnlExport.Controls.Add(btnExportSql);
@@ -380,14 +344,11 @@ namespace Prueba_1_proyecto_vacaciones
         private Button btnImportTxt;
         private Button btnClearData;
         private Button btnGenerateChart;
+        private Button btnChartConsole;
         private Label lblStatus;
 
         private TabControl tabControl;
         private TabPage tabData;
-        private TabPage tabBar;
-        private TabPage tabPie;
-        private TabPage tabDoughnut;
-        private TabPage tabLine;
         private TabPage tabConsole;
         private TabPage tabAutoChart;
 
@@ -396,10 +357,6 @@ namespace Prueba_1_proyecto_vacaciones
         private ComboBox cmbSourceFilter;
         private Label lblRowCount;
         private DataGridView dgvData;
-        private Chart chartBar;
-        private Chart chartPie;
-        private Chart chartDoughnut;
-        private Chart chartLine;
         private Chart chartAutoBar;
         private Chart chartAutoPie;
         private Chart chartAutoDoughnut;
@@ -412,6 +369,5 @@ namespace Prueba_1_proyecto_vacaciones
         private Button btnExportSql;
         private Button btnExportMariaDb;
         private Button btnExportPostgre;
-        private Button btnExportRemote;
     }
 }
