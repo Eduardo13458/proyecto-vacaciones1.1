@@ -299,7 +299,7 @@ namespace Prueba_1_proyecto_vacaciones
             pnlExport.BackColor = Color.FromArgb(35, 35, 55);
 
             lblExport = new Label();
-            lblExport.Text = "Exportar CSV a BD:";
+            lblExport.Text = "Exportar a BD remota:";
             lblExport.ForeColor = Color.LightGray;
             lblExport.Font = new Font("Segoe UI", 9F);
             lblExport.AutoSize = true;
@@ -332,6 +332,17 @@ namespace Prueba_1_proyecto_vacaciones
             btnExportPostgre.FlatStyle = FlatStyle.Flat;
             btnExportPostgre.Click += btnExportPostgre_Click;
 
+            btnExportRemote = new Button();
+            btnExportRemote.Text = "📡 Enviar a Servidor";
+            btnExportRemote.Location = new Point(510, 7);
+            btnExportRemote.Size = new Size(160, 28);
+            btnExportRemote.BackColor = Color.FromArgb(180, 80, 0);
+            btnExportRemote.ForeColor = Color.White;
+            btnExportRemote.FlatStyle = FlatStyle.Flat;
+            btnExportRemote.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnExportRemote.Click += btnExportRemote_Click;
+
+            pnlExport.Controls.Add(btnExportRemote);
             pnlExport.Controls.Add(btnExportPostgre);
             pnlExport.Controls.Add(btnExportMariaDb);
             pnlExport.Controls.Add(btnExportSql);
@@ -401,5 +412,6 @@ namespace Prueba_1_proyecto_vacaciones
         private Button btnExportSql;
         private Button btnExportMariaDb;
         private Button btnExportPostgre;
+        private Button btnExportRemote;
     }
 }

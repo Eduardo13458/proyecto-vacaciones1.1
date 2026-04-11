@@ -221,7 +221,7 @@ namespace Prueba_1_proyecto_vacaciones
 
         private void btnExportSql_Click(object? sender, EventArgs e)
         {
-            if (!HasCsvData()) return;
+            if (!HasData()) return;
 
             var connStr = DatabaseExporter.ShowConnectionDialog("SQL Server", "1433");
             if (connStr == null) return;
@@ -231,7 +231,7 @@ namespace Prueba_1_proyecto_vacaciones
 
         private void btnExportMariaDb_Click(object? sender, EventArgs e)
         {
-            if (!HasCsvData()) return;
+            if (!HasData()) return;
 
             var connStr = DatabaseExporter.ShowConnectionDialog("MariaDB", "3306");
             if (connStr == null) return;
@@ -241,7 +241,7 @@ namespace Prueba_1_proyecto_vacaciones
 
         private void btnExportPostgre_Click(object? sender, EventArgs e)
         {
-            if (!HasCsvData()) return;
+            if (!HasData()) return;
 
             var connStr = DatabaseExporter.ShowConnectionDialog("PostgreSQL", "5432");
             if (connStr == null) return;
@@ -249,20 +249,28 @@ namespace Prueba_1_proyecto_vacaciones
             ExportToDb("PostgreSQL", () => DatabaseExporter.ExportToPostgreSql(_allItems, connStr));
         }
 
-        private bool HasCsvData()
+        private void btnExportRemote_Click(object? sender, EventArgs e)
         {
-            bool found = false;
-            foreach (var item in _allItems)
-                if (item.Source == DataSource.CSV) { found = true; break; }
+            if (!HasData()) return;
 
-            if (!found)
+            var connStr = DatabaseExporter.ShowConnectionDialog("MariaDB", "3306");
+            if (connStr == null) return;
+
+            ExportToDb("Servidor Remoto MariaDB",
+                () => DatabaseExporter.ExportToRemoteMariaDb(_allItems, connStr));
+        }
+
+        private bool HasData()
+        {
+            if (_allItems.Count == 0)
             {
                 MessageBox.Show(
-                    "No hay datos CSV cargados.\n\n" +
-                    "Primero cargue datos con 'Cargar Datos' o importe un CSV.",
-                    "Sin datos CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    "No hay datos cargados.\n\n" +
+                    "Primero cargue datos con 'Cargar Datos' o importe archivos.",
+                    "Sin datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
             }
-            return found;
+            return true;
         }
 
         private void ExportToDb(string dbName, Func<int> exportAction)
@@ -275,8 +283,8 @@ namespace Prueba_1_proyecto_vacaciones
 
                 lblStatus.Text = $"Exportados {count} registros a {dbName}.";
                 MessageBox.Show(
-                    $"Se exportaron {count} registros CSV\n" +
-                    $"a la tabla 'Laptops' en {dbName}.",
+                    $"Se exportaron {count} registros\n" +
+                    $"a la tabla 'DatosIntegrados' en {dbName}.",
                     "Exportacion exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
