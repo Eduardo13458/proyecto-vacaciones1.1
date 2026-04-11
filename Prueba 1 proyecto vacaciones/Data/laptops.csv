@@ -1,0 +1,11 @@
+Company,TypeName,Cpu,Ram,Price
+Dell,Ultrabook,Intel Core i5,8,899.99
+Lenovo,Notebook,Intel Core i7,16,1299.99
+HP,Gaming,AMD Ryzen 5,16,1099.99
+Apple,Ultrabook,Apple M2,16,1499.99
+Dell,Gaming,Intel Core i9,32,2199.99
+Lenovo,Ultrabook,Intel Core i5,8,799.99
+HP,Notebook,Intel Core i3,4,499.99
+Apple,Ultrabook,Apple M3,32,2499.99
+Asus,Gaming,Intel Core i7,16,1399.99
+MSI,Gaming,AMD Ryzen 7,32,1799.99
