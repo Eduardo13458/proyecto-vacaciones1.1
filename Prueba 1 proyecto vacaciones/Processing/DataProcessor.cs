@@ -1,3 +1,4 @@
+using System.Globalization;
 using Prueba_1_proyecto_vacaciones.Models;
 
 namespace Prueba_1_proyecto_vacaciones.Processing
@@ -220,6 +221,317 @@ namespace Prueba_1_proyecto_vacaciones.Processing
                 }
                 items[j + 1] = current;
             }
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  ANALISIS UNIVERSAL PARA GRAFICAS (campos conocidos + ExtraFields)
+        // ════════════════════════════════════════════════════════════════════
+
+        /// <summary>
+        /// Analiza TODOS los items y encuentra automaticamente el mejor par
+        /// (campo categorico, campo numerico) para generar una grafica.
+        /// Busca primero en campos conocidos de DataItem, luego en ExtraFields.
+        /// Retorna datos agrupados: categoria → suma del valor numerico.
+        /// </summary>
+        public static Dictionary<string, double> AutoDetectChartData(
+            List<DataItem> items, out string categoryLabel, out string valueLabel)
+        {
+            categoryLabel = "";
+            valueLabel = "";
+            var result = new Dictionary<string, double>();
+
+            // ── 1. Detectar campos conocidos con datos reales ──────────────
+            bool hasCompany = false, hasGenre = false, hasTipo = false;
+            bool hasRegion = false, hasTypeName = false, hasTitle = false;
+            bool hasPrice = false, hasSales = false, hasStock = false;
+            bool hasTemp = false, hasFPS = false;
+
+            foreach (var item in items)
+            {
+                if (!string.IsNullOrEmpty(item.Company))  hasCompany  = true;
+                if (!string.IsNullOrEmpty(item.Genre))     hasGenre    = true;
+                if (!string.IsNullOrEmpty(item.Tipo))      hasTipo     = true;
+                if (!string.IsNullOrEmpty(item.Region))    hasRegion   = true;
+                if (!string.IsNullOrEmpty(item.TypeName))  hasTypeName = true;
+                if (!string.IsNullOrEmpty(item.Title))     hasTitle    = true;
+                if (item.Price > 0)        hasPrice = true;
+                if (item.Sales > 0)        hasSales = true;
+                if (item.Stock > 0)        hasStock = true;
+                if (item.Temperatura > 0)  hasTemp  = true;
+                if (item.FPS > 0)          hasFPS   = true;
+            }
+
+            // ── 2. Probar combinaciones de (string, double) conocidas ──────
+            // Formato: (tieneCategoria, tieneValor, nombreCat, nombreVal,
+            //           getCategoria, getValor)
+            if (hasCompany && hasPrice)
+            {
+                categoryLabel = "Company";
+                valueLabel = "Price";
+                return GroupKnownFields(items,
+                    i => i.Company, i => i.Price,
+                    i => !string.IsNullOrEmpty(i.Company) && i.Price > 0);
+            }
+            if (hasGenre && hasSales)
+            {
+                categoryLabel = "Genre";
+                valueLabel = "Sales";
+                return GroupKnownFields(items,
+                    i => i.Genre, i => i.Sales,
+                    i => !string.IsNullOrEmpty(i.Genre) && i.Sales > 0);
+            }
+            if (hasTipo && hasStock)
+            {
+                categoryLabel = "Tipo";
+                valueLabel = "Stock";
+                return GroupKnownFields(items,
+                    i => i.Tipo, i => (double)i.Stock,
+                    i => !string.IsNullOrEmpty(i.Tipo) && i.Stock > 0);
+            }
+            if (hasRegion && hasPrice)
+            {
+                categoryLabel = "Region";
+                valueLabel = "Price";
+                return GroupKnownFields(items,
+                    i => i.Region, i => i.Price,
+                    i => !string.IsNullOrEmpty(i.Region) && i.Price > 0);
+            }
+            if (hasTitle && hasSales)
+            {
+                categoryLabel = "Title";
+                valueLabel = "Sales";
+                return GroupKnownFields(items,
+                    i => i.Title, i => i.Sales,
+                    i => !string.IsNullOrEmpty(i.Title) && i.Sales > 0);
+            }
+            if (hasTypeName && hasPrice)
+            {
+                categoryLabel = "TypeName";
+                valueLabel = "Price";
+                return GroupKnownFields(items,
+                    i => i.TypeName, i => i.Price,
+                    i => !string.IsNullOrEmpty(i.TypeName) && i.Price > 0);
+            }
+            if (hasCompany && hasTemp)
+            {
+                categoryLabel = "Company";
+                valueLabel = "Temperatura";
+                return GroupKnownFields(items,
+                    i => i.Company, i => i.Temperatura,
+                    i => !string.IsNullOrEmpty(i.Company) && i.Temperatura > 0);
+            }
+
+            // ── 3. Buscar en ExtraFields ───────────────────────────────────
+            var keySamples = new Dictionary<string, List<string>>(
+                StringComparer.OrdinalIgnoreCase);
+
+            foreach (var item in items)
+                foreach (var kv in item.ExtraFields)
+                {
+                    if (!keySamples.ContainsKey(kv.Key))
+                        keySamples[kv.Key] = new List<string>();
+                    if (keySamples[kv.Key].Count < 200)
+                        keySamples[kv.Key].Add(kv.Value);
+                }
+
+            if (keySamples.Count < 2) return result;
+
+            string? numericField = null;
+            string? categoryField = null;
+
+            foreach (var kv in keySamples)
+            {
+                int numCount = 0;
+                foreach (var val in kv.Value)
+                    if (double.TryParse(val, NumberStyles.Any,
+                            CultureInfo.InvariantCulture, out _))
+                        numCount++;
+
+                double ratio = (double)numCount / kv.Value.Count;
+
+                if (ratio >= 0.8 && numericField == null)
+                    numericField = kv.Key;
+                else if (ratio < 0.5 && categoryField == null)
+                    categoryField = kv.Key;
+            }
+
+            if (numericField == null || categoryField == null) return result;
+
+            categoryLabel = categoryField;
+            valueLabel = numericField;
+
+            foreach (var item in items)
+            {
+                if (!item.ExtraFields.TryGetValue(categoryField, out var cat)) continue;
+                if (!item.ExtraFields.TryGetValue(numericField, out var numStr)) continue;
+                if (!double.TryParse(numStr, NumberStyles.Any,
+                        CultureInfo.InvariantCulture, out double num)) continue;
+
+                if (string.IsNullOrWhiteSpace(cat)) continue;
+                if (!result.ContainsKey(cat))
+                    result[cat] = 0;
+                result[cat] += num;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Extrae todas las series numericas disponibles para grafica de linea.
+        /// Busca en campos conocidos y en ExtraFields.
+        /// Cada serie es un par (nombre, lista de valores).
+        /// </summary>
+        public static Dictionary<string, List<double>> AutoDetectLineSeries(
+            List<DataItem> items)
+        {
+            var series = new Dictionary<string, List<double>>(
+                StringComparer.OrdinalIgnoreCase);
+
+            // Intentar campos conocidos que tengan datos
+            bool hasTemp = false, hasFPS = false, hasPrice = false, hasSales = false;
+            foreach (var item in items)
+            {
+                if (item.Temperatura > 0) hasTemp  = true;
+                if (item.FPS > 0)         hasFPS   = true;
+                if (item.Price > 0)       hasPrice = true;
+                if (item.Sales > 0)       hasSales = true;
+            }
+
+            if (hasTemp)
+            {
+                series["Temperatura"] = new List<double>();
+                foreach (var item in items)
+                    if (item.Temperatura > 0)
+                        series["Temperatura"].Add(item.Temperatura);
+            }
+            if (hasFPS)
+            {
+                series["FPS"] = new List<double>();
+                foreach (var item in items)
+                    if (item.FPS > 0)
+                        series["FPS"].Add(item.FPS);
+            }
+            if (!hasTemp && !hasFPS && hasPrice)
+            {
+                series["Price"] = new List<double>();
+                foreach (var item in items)
+                    if (item.Price > 0)
+                        series["Price"].Add(item.Price);
+            }
+            if (!hasTemp && !hasFPS && hasSales)
+            {
+                series["Sales"] = new List<double>();
+                foreach (var item in items)
+                    if (item.Sales > 0)
+                        series["Sales"].Add(item.Sales);
+            }
+
+            // Si no hay campos conocidos, buscar en ExtraFields
+            if (series.Count == 0)
+            {
+                foreach (var item in items)
+                    foreach (var kv in item.ExtraFields)
+                        if (double.TryParse(kv.Value, NumberStyles.Any,
+                                CultureInfo.InvariantCulture, out double val))
+                        {
+                            if (!series.ContainsKey(kv.Key))
+                                series[kv.Key] = new List<double>();
+                            series[kv.Key].Add(val);
+                        }
+            }
+
+            return series;
+        }
+
+        private static Dictionary<string, double> GroupKnownFields(
+            List<DataItem> items,
+            Func<DataItem, string> getCategory,
+            Func<DataItem, double> getValue,
+            Func<DataItem, bool> filter)
+        {
+            var result = new Dictionary<string, double>();
+            var counts = new Dictionary<string, int>();
+
+            foreach (var item in items)
+            {
+                if (!filter(item)) continue;
+                string cat = getCategory(item);
+                if (string.IsNullOrEmpty(cat)) continue;
+
+                if (!result.ContainsKey(cat))
+                {
+                    result[cat] = 0;
+                    counts[cat] = 0;
+                }
+                result[cat] += getValue(item);
+                counts[cat]++;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Devuelve solo las top N categorias por valor (desc) usando Insertion Sort.
+        /// Si hay mas de maxCategories, agrupa el resto en "Otros".
+        /// </summary>
+        public static Dictionary<string, double> LimitTopN(
+            Dictionary<string, double> data, int maxCategories)
+        {
+            if (data.Count <= maxCategories) return data;
+
+            // Volcar a lista para ordenar manualmente (sin LINQ)
+            var list = new List<KeyValuePair<string, double>>();
+            foreach (var kv in data)
+                list.Add(kv);
+
+            // Insertion Sort descendente por valor
+            for (int i = 1; i < list.Count; i++)
+            {
+                var current = list[i];
+                int j = i - 1;
+                while (j >= 0 && list[j].Value < current.Value)
+                {
+                    list[j + 1] = list[j];
+                    j--;
+                }
+                list[j + 1] = current;
+            }
+
+            var result = new Dictionary<string, double>();
+            double othersSum = 0;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i < maxCategories)
+                    result[list[i].Key] = list[i].Value;
+                else
+                    othersSum += list[i].Value;
+            }
+
+            if (othersSum > 0)
+                result["Otros"] = othersSum;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Reduce una serie numerica a maxPoints muestreando uniformemente.
+        /// </summary>
+        public static List<double> SampleSeries(List<double> values, int maxPoints)
+        {
+            if (values.Count <= maxPoints) return values;
+
+            var sampled = new List<double>();
+            double step = (double)(values.Count - 1) / (maxPoints - 1);
+
+            for (int i = 0; i < maxPoints; i++)
+            {
+                int idx = (int)Math.Round(i * step);
+                if (idx >= values.Count) idx = values.Count - 1;
+                sampled.Add(values[idx]);
+            }
+
+            return sampled;
         }
 
         // ── Helpers privados ───────────────────────────────────────────────

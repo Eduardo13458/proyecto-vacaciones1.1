@@ -178,6 +178,44 @@ namespace Prueba_1_proyecto_vacaciones
             tabControl.TabPages.Add(tabLine);
             tabControl.TabPages.Add(tabConsole);
 
+            // Tab 7 – Grafica Auto-generada
+            tabAutoChart = new TabPage("⚡ Grafica Generada");
+            tlpAutoCharts = new TableLayoutPanel();
+            tlpAutoCharts.Dock = DockStyle.Fill;
+            tlpAutoCharts.ColumnCount = 2;
+            tlpAutoCharts.RowCount = 2;
+            tlpAutoCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpAutoCharts.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpAutoCharts.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpAutoCharts.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+
+            chartAutoBar = new Chart();
+            chartAutoBar.Dock = DockStyle.Fill;
+            chartAutoBar.BackColor = Color.White;
+            chartAutoBar.ChartAreas.Add(new ChartArea("Default"));
+
+            chartAutoPie = new Chart();
+            chartAutoPie.Dock = DockStyle.Fill;
+            chartAutoPie.BackColor = Color.White;
+            chartAutoPie.ChartAreas.Add(new ChartArea("Default"));
+
+            chartAutoDoughnut = new Chart();
+            chartAutoDoughnut.Dock = DockStyle.Fill;
+            chartAutoDoughnut.BackColor = Color.White;
+            chartAutoDoughnut.ChartAreas.Add(new ChartArea("Default"));
+
+            chartAutoLine = new Chart();
+            chartAutoLine.Dock = DockStyle.Fill;
+            chartAutoLine.BackColor = Color.White;
+            chartAutoLine.ChartAreas.Add(new ChartArea("Default"));
+
+            tlpAutoCharts.Controls.Add(chartAutoBar, 0, 0);
+            tlpAutoCharts.Controls.Add(chartAutoPie, 1, 0);
+            tlpAutoCharts.Controls.Add(chartAutoDoughnut, 0, 1);
+            tlpAutoCharts.Controls.Add(chartAutoLine, 1, 1);
+            tabAutoChart.Controls.Add(tlpAutoCharts);
+            tabControl.TabPages.Add(tabAutoChart);
+
             // ── Panel de importacion de archivos ───────────────────────────
             pnlFiles = new Panel();
             pnlFiles.Dock = DockStyle.Top;
@@ -236,12 +274,68 @@ namespace Prueba_1_proyecto_vacaciones
             btnClearData.FlatStyle = FlatStyle.Flat;
             btnClearData.Click += btnClearData_Click;
 
+            btnGenerateChart = new Button();
+            btnGenerateChart.Text = "⚡ Generar Grafica";
+            btnGenerateChart.Location = new Point(620, 8);
+            btnGenerateChart.Size = new Size(150, 28);
+            btnGenerateChart.BackColor = Color.FromArgb(0, 120, 215);
+            btnGenerateChart.ForeColor = Color.White;
+            btnGenerateChart.FlatStyle = FlatStyle.Flat;
+            btnGenerateChart.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnGenerateChart.Click += btnGenerateChart_Click;
+
+            pnlFiles.Controls.Add(btnGenerateChart);
             pnlFiles.Controls.Add(btnClearData);
             pnlFiles.Controls.Add(btnImportTxt);
             pnlFiles.Controls.Add(btnImportXml);
             pnlFiles.Controls.Add(btnImportJson);
             pnlFiles.Controls.Add(btnImportCsv);
             pnlFiles.Controls.Add(lblImport);
+
+            // ── Panel de exportacion a BD ──────────────────────────────────
+            pnlExport = new Panel();
+            pnlExport.Dock = DockStyle.Top;
+            pnlExport.Height = 42;
+            pnlExport.BackColor = Color.FromArgb(35, 35, 55);
+
+            lblExport = new Label();
+            lblExport.Text = "Exportar CSV a BD:";
+            lblExport.ForeColor = Color.LightGray;
+            lblExport.Font = new Font("Segoe UI", 9F);
+            lblExport.AutoSize = true;
+            lblExport.Location = new Point(12, 12);
+
+            btnExportSql = new Button();
+            btnExportSql.Text = "SQL Server";
+            btnExportSql.Location = new Point(155, 7);
+            btnExportSql.Size = new Size(105, 28);
+            btnExportSql.BackColor = Color.FromArgb(204, 48, 43);
+            btnExportSql.ForeColor = Color.White;
+            btnExportSql.FlatStyle = FlatStyle.Flat;
+            btnExportSql.Click += btnExportSql_Click;
+
+            btnExportMariaDb = new Button();
+            btnExportMariaDb.Text = "MariaDB";
+            btnExportMariaDb.Location = new Point(270, 7);
+            btnExportMariaDb.Size = new Size(105, 28);
+            btnExportMariaDb.BackColor = Color.FromArgb(0, 108, 133);
+            btnExportMariaDb.ForeColor = Color.White;
+            btnExportMariaDb.FlatStyle = FlatStyle.Flat;
+            btnExportMariaDb.Click += btnExportMariaDb_Click;
+
+            btnExportPostgre = new Button();
+            btnExportPostgre.Text = "PostgreSQL";
+            btnExportPostgre.Location = new Point(385, 7);
+            btnExportPostgre.Size = new Size(105, 28);
+            btnExportPostgre.BackColor = Color.FromArgb(51, 103, 145);
+            btnExportPostgre.ForeColor = Color.White;
+            btnExportPostgre.FlatStyle = FlatStyle.Flat;
+            btnExportPostgre.Click += btnExportPostgre_Click;
+
+            pnlExport.Controls.Add(btnExportPostgre);
+            pnlExport.Controls.Add(btnExportMariaDb);
+            pnlExport.Controls.Add(btnExportSql);
+            pnlExport.Controls.Add(lblExport);
 
             // ── Form ───────────────────────────────────────────────────────
             this.AutoScaleMode = AutoScaleMode.Font;
@@ -251,6 +345,7 @@ namespace Prueba_1_proyecto_vacaciones
 
             // Fill primero, luego los Top de abajo hacia arriba
             this.Controls.Add(tabControl);
+            this.Controls.Add(pnlExport);
             this.Controls.Add(pnlFiles);
             this.Controls.Add(pnlTop);
 
@@ -273,6 +368,7 @@ namespace Prueba_1_proyecto_vacaciones
         private Button btnImportXml;
         private Button btnImportTxt;
         private Button btnClearData;
+        private Button btnGenerateChart;
         private Label lblStatus;
 
         private TabControl tabControl;
@@ -282,6 +378,7 @@ namespace Prueba_1_proyecto_vacaciones
         private TabPage tabDoughnut;
         private TabPage tabLine;
         private TabPage tabConsole;
+        private TabPage tabAutoChart;
 
         private Panel pnlDataFilter;
         private Label lblFilter;
@@ -292,6 +389,17 @@ namespace Prueba_1_proyecto_vacaciones
         private Chart chartPie;
         private Chart chartDoughnut;
         private Chart chartLine;
+        private Chart chartAutoBar;
+        private Chart chartAutoPie;
+        private Chart chartAutoDoughnut;
+        private Chart chartAutoLine;
+        private TableLayoutPanel tlpAutoCharts;
         private RichTextBox rtbConsole;
+
+        private Panel pnlExport;
+        private Label lblExport;
+        private Button btnExportSql;
+        private Button btnExportMariaDb;
+        private Button btnExportPostgre;
     }
 }

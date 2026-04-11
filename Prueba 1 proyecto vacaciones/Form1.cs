@@ -17,6 +17,9 @@ namespace Prueba_1_proyecto_vacaciones
         // ── Almacenamiento principal: estrictamente List<DataItem> ──────────
         private List<DataItem> _allItems = [];
 
+        // ── Ultimo lote importado (para generar graficas del archivo actual) ─
+        private List<DataItem> _lastImportedItems = [];
+
         // ── Indice rapido de busqueda por ID (Dictionary) ──────────────────
         private Dictionary<int, DataItem> _idIndex = [];
 
@@ -45,6 +48,9 @@ namespace Prueba_1_proyecto_vacaciones
             _allItems.AddRange(DataReader.ReadXml());
             _allItems.AddRange(DataReader.ReadTxt());
             _allItems.AddRange(DataReader.ReadFromDatabase(SqlConn));
+
+            // El lote "ultimo" es todo, porque Cargar Datos carga las 5 fuentes
+            _lastImportedItems = new List<DataItem>(_allItems);
 
             // Construir indice de busqueda rapida O(1)
             _idIndex = DataProcessor.BuildIdIndex(_allItems);
@@ -194,14 +200,343 @@ namespace Prueba_1_proyecto_vacaciones
                 return;
 
             _allItems.Clear();
+            _lastImportedItems.Clear();
             _idIndex.Clear();
             FillDataGridView();
             chartBar.Series.Clear();
             chartPie.Series.Clear();
             chartDoughnut.Series.Clear();
             chartLine.Series.Clear();
+            chartAutoBar.Series.Clear();
+            chartAutoPie.Series.Clear();
+            chartAutoDoughnut.Series.Clear();
+            chartAutoLine.Series.Clear();
             rtbConsole.Clear();
             lblStatus.Text = "Datos limpiados.";
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  EXPORTACION A BASES DE DATOS
+        // ════════════════════════════════════════════════════════════════════
+
+        private void btnExportSql_Click(object? sender, EventArgs e)
+        {
+            if (!HasCsvData()) return;
+
+            var connStr = DatabaseExporter.ShowConnectionDialog("SQL Server", "1433");
+            if (connStr == null) return;
+
+            ExportToDb("SQL Server", () => DatabaseExporter.ExportToSqlServer(_allItems, connStr));
+        }
+
+        private void btnExportMariaDb_Click(object? sender, EventArgs e)
+        {
+            if (!HasCsvData()) return;
+
+            var connStr = DatabaseExporter.ShowConnectionDialog("MariaDB", "3306");
+            if (connStr == null) return;
+
+            ExportToDb("MariaDB", () => DatabaseExporter.ExportToMariaDb(_allItems, connStr));
+        }
+
+        private void btnExportPostgre_Click(object? sender, EventArgs e)
+        {
+            if (!HasCsvData()) return;
+
+            var connStr = DatabaseExporter.ShowConnectionDialog("PostgreSQL", "5432");
+            if (connStr == null) return;
+
+            ExportToDb("PostgreSQL", () => DatabaseExporter.ExportToPostgreSql(_allItems, connStr));
+        }
+
+        private bool HasCsvData()
+        {
+            bool found = false;
+            foreach (var item in _allItems)
+                if (item.Source == DataSource.CSV) { found = true; break; }
+
+            if (!found)
+            {
+                MessageBox.Show(
+                    "No hay datos CSV cargados.\n\n" +
+                    "Primero cargue datos con 'Cargar Datos' o importe un CSV.",
+                    "Sin datos CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return found;
+        }
+
+        private void ExportToDb(string dbName, Func<int> exportAction)
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                int count = exportAction();
+                Cursor = Cursors.Default;
+
+                lblStatus.Text = $"Exportados {count} registros a {dbName}.";
+                MessageBox.Show(
+                    $"Se exportaron {count} registros CSV\n" +
+                    $"a la tabla 'Laptops' en {dbName}.",
+                    "Exportacion exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Cursor = Cursors.Default;
+                MessageBox.Show(
+                    $"Error al exportar a {dbName}:\n\n{ex.Message}",
+                    "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  BOTON: Generar Grafica (universal, cualquier archivo)
+        // ════════════════════════════════════════════════════════════════════
+
+        private void btnGenerateChart_Click(object? sender, EventArgs e)
+        {
+            if (_allItems.Count == 0)
+            {
+                MessageBox.Show(
+                    "No hay datos cargados.\n\n" +
+                    "Primero importe un archivo (CSV, JSON, XML o TXT)\n" +
+                    "usando los botones de la barra superior.",
+                    "Sin datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            Cursor = Cursors.WaitCursor;
+
+            // ── Detectar automaticamente los mejores campos ────────────────
+            // Usar el ultimo lote importado para que la grafica refleje
+            // el archivo mas reciente, no la mezcla de todos los archivos.
+            var itemsForChart = _lastImportedItems.Count > 0
+                ? _lastImportedItems : _allItems;
+
+            var groupedData = DataProcessor.AutoDetectChartData(
+                itemsForChart, out var catLabel, out var valLabel);
+
+            var lineSeries = DataProcessor.AutoDetectLineSeries(itemsForChart);
+
+            if (groupedData.Count == 0 && lineSeries.Count == 0)
+            {
+                Cursor = Cursors.Default;
+                MessageBox.Show(
+                    "No se encontraron campos categóricos + numéricos\n" +
+                    "suficientes para generar gráficas automáticas.",
+                    "Datos insuficientes", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            tlpAutoCharts.SuspendLayout();
+
+            // ── 1. Barras ──────────────────────────────────────────────────
+            FillAutoBarChart(groupedData, catLabel, valLabel);
+
+            // ── 2. Pastel ──────────────────────────────────────────────────
+            FillAutoPieChart(groupedData, catLabel, valLabel);
+
+            // ── 3. Anillo ──────────────────────────────────────────────────
+            FillAutoDoughnutChart(groupedData, catLabel, valLabel);
+
+            // ── 4. Lineas ──────────────────────────────────────────────────
+            FillAutoLineChart(lineSeries);
+
+            tlpAutoCharts.ResumeLayout(true);
+
+            // Ir a la tab de graficas generadas
+            tabControl.SelectedTab = tabAutoChart;
+            lblStatus.Text = $"Graficas generadas: {catLabel} → {valLabel} " +
+                             $"({groupedData.Count} categorias, {lineSeries.Count} series)";
+            Cursor = Cursors.Default;
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  GRAFICAS AUTO-GENERADAS (tab "Grafica Generada")
+        // ════════════════════════════════════════════════════════════════════
+
+        private const int MaxBarCategories = 15;
+        private const int MaxPieSlices = 10;
+        private const int MaxLinePoints = 50;
+
+        private static void ResetChart(Chart chart)
+        {
+            chart.Series.Clear();
+            chart.Titles.Clear();
+            chart.Legends.Clear();
+            chart.ChartAreas.Clear();
+            chart.ChartAreas.Add(new ChartArea("Default"));
+        }
+
+        private void FillAutoBarChart(Dictionary<string, double> data,
+            string catLabel, string valLabel)
+        {
+            ResetChart(chartAutoBar);
+
+            if (data.Count == 0) return;
+
+            var limited = DataProcessor.LimitTopN(data, MaxBarCategories);
+
+            var area = chartAutoBar.ChartAreas[0];
+            area.AxisX.Title = catLabel;
+            area.AxisY.Title = valLabel;
+            area.AxisX.LabelStyle.Angle = -45;
+            area.AxisX.LabelStyle.Font = new Font("Segoe UI", 7F);
+            area.AxisX.LabelStyle.TruncatedLabels = true;
+            area.AxisX.MajorGrid.Enabled = false;
+            area.AxisY.MajorGrid.LineColor = Color.FromArgb(220, 220, 220);
+            area.AxisY.LabelStyle.Font = new Font("Segoe UI", 7F);
+
+            string titleSuffix = data.Count > MaxBarCategories
+                ? $" (Top {MaxBarCategories} de {data.Count})" : "";
+            chartAutoBar.Titles.Add($"{valLabel} por {catLabel}{titleSuffix}");
+            chartAutoBar.Titles[0].Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            var series = chartAutoBar.Series.Add(valLabel);
+            series.ChartType = SeriesChartType.Column;
+            series.IsValueShownAsLabel = limited.Count <= 10;
+            series.LabelFormat = "{0:F1}";
+            series.Font = new Font("Segoe UI", 6.5F);
+
+            int idx = 0;
+            foreach (var kv in limited)
+            {
+                string label = kv.Key.Length > 18
+                    ? kv.Key.Substring(0, 15) + "..." : kv.Key;
+                int pt = series.Points.AddXY(label, kv.Value);
+                series.Points[pt].Color = GetColor(idx++);
+            }
+
+            chartAutoBar.Invalidate();
+        }
+
+        private void FillAutoPieChart(Dictionary<string, double> data,
+            string catLabel, string valLabel)
+        {
+            ResetChart(chartAutoPie);
+
+            if (data.Count == 0) return;
+
+            var limited = DataProcessor.LimitTopN(data, MaxPieSlices);
+
+            chartAutoPie.Titles.Add($"{valLabel} por {catLabel} (Pastel)");
+            chartAutoPie.Titles[0].Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            var series = chartAutoPie.Series.Add(valLabel);
+            series.ChartType = SeriesChartType.Pie;
+            series["PieLabelStyle"] = limited.Count <= 6 ? "Outside" : "Disabled";
+            series.IsValueShownAsLabel = limited.Count <= 6;
+            series.LabelFormat = "{0:F1}";
+            series.Font = new Font("Segoe UI", 7F);
+
+            int idx = 0;
+            foreach (var kv in limited)
+            {
+                string label = kv.Key.Length > 20
+                    ? kv.Key.Substring(0, 17) + "..." : kv.Key;
+                int pt = series.Points.AddXY(label, kv.Value);
+                series.Points[pt].Color = GetColor(idx++);
+                series.Points[pt].LegendText = $"{label}: {kv.Value:F1}";
+            }
+
+            var legend = new Legend { Docking = Docking.Right };
+            legend.Font = new Font("Segoe UI", 7F);
+            chartAutoPie.Legends.Add(legend);
+
+            chartAutoPie.Invalidate();
+        }
+
+        private void FillAutoDoughnutChart(Dictionary<string, double> data,
+            string catLabel, string valLabel)
+        {
+            ResetChart(chartAutoDoughnut);
+
+            if (data.Count == 0) return;
+
+            var limited = DataProcessor.LimitTopN(data, MaxPieSlices);
+
+            chartAutoDoughnut.Titles.Add($"{valLabel} por {catLabel} (Anillo)");
+            chartAutoDoughnut.Titles[0].Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            var series = chartAutoDoughnut.Series.Add(valLabel);
+            series.ChartType = SeriesChartType.Doughnut;
+            series["DoughnutRadius"] = "40";
+            series.IsValueShownAsLabel = limited.Count <= 6;
+            series.LabelFormat = "{0:F1}";
+            series.Font = new Font("Segoe UI", 7F);
+
+            int idx = 0;
+            foreach (var kv in limited)
+            {
+                string label = kv.Key.Length > 20
+                    ? kv.Key.Substring(0, 17) + "..." : kv.Key;
+                int pt = series.Points.AddXY(label, kv.Value);
+                series.Points[pt].Color = GetColor(idx++);
+                series.Points[pt].LegendText = $"{label}: {kv.Value:F1}";
+            }
+
+            var legend = new Legend { Docking = Docking.Right };
+            legend.Font = new Font("Segoe UI", 7F);
+            chartAutoDoughnut.Legends.Add(legend);
+
+            chartAutoDoughnut.Invalidate();
+        }
+
+        private void FillAutoLineChart(Dictionary<string, List<double>> seriesData)
+        {
+            ResetChart(chartAutoLine);
+
+            if (seriesData.Count == 0) return;
+
+            var area = chartAutoLine.ChartAreas[0];
+            area.AxisX.Title = "Indice";
+            area.AxisY.Title = "Valor";
+            area.AxisX.LabelStyle.Font = new Font("Segoe UI", 7F);
+            area.AxisY.LabelStyle.Font = new Font("Segoe UI", 7F);
+            area.AxisX.MajorGrid.LineColor = Color.FromArgb(230, 230, 230);
+            area.AxisY.MajorGrid.LineColor = Color.FromArgb(220, 220, 220);
+
+            chartAutoLine.Titles.Add("Series Numericas (Lineas)");
+            chartAutoLine.Titles[0].Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
+            MarkerStyle[] markers =
+                [MarkerStyle.Circle, MarkerStyle.Diamond, MarkerStyle.Triangle,
+                 MarkerStyle.Square, MarkerStyle.Cross, MarkerStyle.Star4];
+
+            int sIdx = 0;
+            foreach (var kv in seriesData)
+            {
+                if (sIdx >= 4) break; // max 4 series en espacio reducido
+
+                var points = DataProcessor.SampleSeries(kv.Value, MaxLinePoints);
+
+                var s = chartAutoLine.Series.Add(kv.Key);
+                s.ChartType = SeriesChartType.Line;
+                s.BorderWidth = 2;
+                s.Color = GetColor(sIdx);
+                s.MarkerStyle = points.Count <= 25
+                    ? markers[sIdx % markers.Length] : MarkerStyle.None;
+                s.MarkerSize = 5;
+
+                for (int i = 0; i < points.Count; i++)
+                    s.Points.AddXY(i + 1, points[i]);
+
+                sIdx++;
+            }
+
+            // Ajustar intervalo del eje X segun cantidad de puntos
+            int maxPts = 0;
+            foreach (var kv in seriesData)
+            {
+                int cnt = kv.Value.Count > MaxLinePoints ? MaxLinePoints : kv.Value.Count;
+                if (cnt > maxPts) maxPts = cnt;
+            }
+            area.AxisX.Interval = maxPts <= 20 ? 1 : maxPts <= 50 ? 5 : 10;
+
+            var legend = new Legend { Docking = Docking.Top };
+            legend.Font = new Font("Segoe UI", 7.5F);
+            chartAutoLine.Legends.Add(legend);
+
+            chartAutoLine.Invalidate();
         }
 
         /// <summary>
@@ -230,6 +565,7 @@ namespace Prueba_1_proyecto_vacaciones
                 }
 
                 _allItems.AddRange(newItems);
+                _lastImportedItems = newItems;
                 _idIndex = DataProcessor.BuildIdIndex(_allItems);
 
                 // Auto-select filter to show imported source
