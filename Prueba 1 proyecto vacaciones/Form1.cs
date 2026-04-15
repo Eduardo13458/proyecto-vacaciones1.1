@@ -23,43 +23,62 @@ namespace Prueba_1_proyecto_vacaciones
         // ── Indice rapido de busqueda por ID (Dictionary) ──────────────────
         private Dictionary<int, DataItem> _idIndex = [];
 
-        // ── Cadena de conexion SQL (editar segun el entorno) ───────────────
-        private const string SqlConn =
-            @"Server=.\SQLEXPRESS;Database=DataFusionArena;" +
-            @"Trusted_Connection=true;TrustServerCertificate=true;";
-
         public Form1()
         {
             InitializeComponent();
         }
 
         // ════════════════════════════════════════════════════════════════════
-        //  BOTON: Cargar Datos
+        //  BOTONES: Importar desde Bases de Datos
         // ════════════════════════════════════════════════════════════════════
 
-        private void btnLoad_Click(object? sender, EventArgs e)
+        private void btnImportSqlServer_Click(object? sender, EventArgs e)
+            => ImportFromDb("SQL Server", "1433", DataReader.ReadFromSqlServer);
+
+        private void btnImportMariaDb_Click(object? sender, EventArgs e)
+            => ImportFromDb("MariaDB", "3306", DataReader.ReadFromMariaDb);
+
+        private void btnImportPostgre_Click(object? sender, EventArgs e)
+            => ImportFromDb("PostgreSQL", "5432", DataReader.ReadFromPostgreSql);
+
+        private void ImportFromDb(string dbName, string defaultPort,
+            Func<string, List<DataItem>> readFunc)
         {
-            Cursor = Cursors.WaitCursor;
-            _allItems.Clear();
+            var connStr = DatabaseExporter.ShowConnectionDialog(dbName, defaultPort, "Conectar e Importar");
+            if (connStr == null) return;
 
-            // Leer las 5 fuentes
-            _allItems.AddRange(DataReader.ReadCsv());
-            _allItems.AddRange(DataReader.ReadJson());
-            _allItems.AddRange(DataReader.ReadXml());
-            _allItems.AddRange(DataReader.ReadTxt());
-            _allItems.AddRange(DataReader.ReadFromDatabase(SqlConn));
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                var dbItems = readFunc(connStr);
 
-            // El lote "ultimo" es todo, porque Cargar Datos carga las 5 fuentes
-            _lastImportedItems = new List<DataItem>(_allItems);
+                if (dbItems.Count == 0)
+                {
+                    lblStatus.Text = $"No se obtuvieron registros de {dbName}.";
+                    Cursor = Cursors.Default;
+                    return;
+                }
 
-            // Construir indice de busqueda rapida O(1)
-            _idIndex = DataProcessor.BuildIdIndex(_allItems);
+                _allItems.AddRange(dbItems);
+                _lastImportedItems = dbItems;
+                _idIndex = DataProcessor.BuildIdIndex(_allItems);
 
-            // Llenar UI
-            FillDataGridView();
+                FillDataGridView();
 
-            lblStatus.Text = $"OK  {_allItems.Count} registros de 5 fuentes.";
-            Cursor = Cursors.Default;
+                lblStatus.Text = $"Importados {dbItems.Count} registros desde {dbName}  " +
+                                 $"(Total: {_allItems.Count})";
+                tabControl.SelectedTab = tabData;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Error al importar desde {dbName}:\n\n{ex.Message}",
+                    "Error de conexion", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         // ════════════════════════════════════════════════════════════════════
@@ -68,7 +87,14 @@ namespace Prueba_1_proyecto_vacaciones
 
         private void btnProcess_Click(object? sender, EventArgs e)
         {
-            if (_allItems.Count == 0) btnLoad_Click(sender, e);
+            if (_allItems.Count == 0)
+            {
+                MessageBox.Show(
+                    "No hay datos cargados.\n\n" +
+                    "Importe archivos (CSV, JSON, XML, TXT) o use el boton BD.",
+                    "Sin datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             var sb = new StringBuilder();
             var (stringFields, numericFields) = DataProcessor.DiscoverFields(_allItems);
@@ -214,7 +240,14 @@ namespace Prueba_1_proyecto_vacaciones
 
         private void btnConsole_Click(object? sender, EventArgs e)
         {
-            if (_allItems.Count == 0) btnLoad_Click(sender, e);
+            if (_allItems.Count == 0)
+            {
+                MessageBox.Show(
+                    "No hay datos cargados.\n\n" +
+                    "Importe archivos (CSV, JSON, XML, TXT) o use el boton BD.",
+                    "Sin datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             rtbConsole.Text = ConsoleVisualizer.RenderDynamicTable(_allItems);
             tabControl.SelectedTab = tabConsole;
@@ -295,7 +328,7 @@ namespace Prueba_1_proyecto_vacaciones
             {
                 MessageBox.Show(
                     "No hay datos cargados.\n\n" +
-                    "Primero cargue datos con 'Cargar Datos' o importe archivos.",
+                    "Primero importe archivos o use el boton BD.",
                     "Sin datos", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
@@ -647,10 +680,10 @@ namespace Prueba_1_proyecto_vacaciones
             chartAutoLine.Invalidate();
         }
 
-        /// <summary>
+       
         /// Abre el dialogo de archivo, llama a DataReader.LoadFromFile() con
         /// la ruta absoluta elegida y refresca toda la UI.
-        /// </summary>
+      
         private void ImportFile(string filter)
         {
             using var dlg = new OpenFileDialog
@@ -833,7 +866,7 @@ namespace Prueba_1_proyecto_vacaciones
             _      => Color.White,
         };
 
-        // ── Paleta de colores para las graficas ────────────────────────────
+        // ── Paleta de colores para las graficas
 
         private static Color GetColor(int index)
         {

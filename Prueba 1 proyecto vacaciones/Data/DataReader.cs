@@ -1,7 +1,10 @@
 using System.Globalization;
 using System.Text.Json;
 using System.Xml;
+using System.Data.Common;
 using Microsoft.Data.SqlClient;
+using MySqlConnector;
+using Npgsql;
 using Prueba_1_proyecto_vacaciones.Models;
 
 namespace Prueba_1_proyecto_vacaciones.Data 
@@ -296,6 +299,91 @@ namespace Prueba_1_proyecto_vacaciones.Data
                 items = GetSimulatedDbData();
             }
 
+            return items;
+        }
+
+        // ── Importar dinamico desde DatosIntegrados (SQL Server) ────────
+
+        public static List<DataItem> ReadFromSqlServer(string connectionString)
+        {
+            DatabaseExporter.EnsureSqlServerDatabase(connectionString);
+
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            using var check = new SqlCommand(
+                "SELECT OBJECT_ID('DatosIntegrados', 'U')", conn);
+            if (check.ExecuteScalar() is null or DBNull)
+                return [];
+
+            using var cmd = new SqlCommand("SELECT * FROM [DatosIntegrados]", conn);
+            using var reader = cmd.ExecuteReader();
+            return ReadItemsFromReader(reader);
+        }
+
+        // ── Importar dinamico desde DatosIntegrados (MariaDB) ───────────
+
+        public static List<DataItem> ReadFromMariaDb(string connectionString)
+        {
+            DatabaseExporter.EnsureMySqlDatabase(connectionString);
+
+            using var conn = new MySqlConnection(connectionString);
+            conn.Open();
+
+            using var check = new MySqlCommand(
+                "SELECT COUNT(*) FROM information_schema.tables " +
+                "WHERE table_schema = DATABASE() AND table_name = 'DatosIntegrados'", conn);
+            if (Convert.ToInt32(check.ExecuteScalar()) == 0)
+                return [];
+
+            using var cmd = new MySqlCommand("SELECT * FROM `DatosIntegrados`", conn);
+            using var reader = cmd.ExecuteReader();
+            return ReadItemsFromReader(reader);
+        }
+
+        // ── Importar dinamico desde DatosIntegrados (PostgreSQL) ────────
+
+        public static List<DataItem> ReadFromPostgreSql(string connectionString)
+        {
+            DatabaseExporter.EnsurePostgreSqlDatabase(connectionString);
+
+            using var conn = new NpgsqlConnection(connectionString);
+            conn.Open();
+
+            using var check = new NpgsqlCommand(
+                "SELECT EXISTS (SELECT FROM information_schema.tables " +
+                "WHERE table_name = 'DatosIntegrados')", conn);
+            if (check.ExecuteScalar() is false)
+                return [];
+
+            using var cmd = new NpgsqlCommand("SELECT * FROM \"DatosIntegrados\"", conn);
+            using var reader = cmd.ExecuteReader();
+            return ReadItemsFromReader(reader);
+        }
+
+        private static List<DataItem> ReadItemsFromReader(DbDataReader reader)
+        {
+            var items = new List<DataItem>();
+            var columnNames = new List<string>();
+            for (int i = 0; i < reader.FieldCount; i++)
+                columnNames.Add(reader.GetName(i));
+
+            int id = 4000;
+            while (reader.Read())
+            {
+                var fields = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    if (!reader.IsDBNull(i))
+                    {
+                        string val = reader.GetValue(i)?.ToString() ?? "";
+                        if (!string.IsNullOrWhiteSpace(val))
+                            fields[columnNames[i]] = val;
+                    }
+                }
+                if (fields.Count > 0)
+                    items.Add(MapFieldsToItem(fields, DataSource.DB, id++));
+            }
             return items;
         }
 

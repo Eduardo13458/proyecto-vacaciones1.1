@@ -129,7 +129,7 @@ namespace Prueba_1_proyecto_vacaciones.Data
         //  DIALOGO DE CONEXION
         // ════════════════════════════════════════════════════════════════════
 
-        public static string? ShowConnectionDialog(string dbName, string defaultPort)
+        public static string? ShowConnectionDialog(string dbName, string defaultPort, string actionLabel = "Conectar y Exportar")
         {
             using var frm = new Form
             {
@@ -185,7 +185,7 @@ namespace Prueba_1_proyecto_vacaciones.Data
 
             var btnOk = new Button
             {
-                Text = "Conectar y Exportar",
+                Text = actionLabel,
                 DialogResult = DialogResult.OK,
                 Location = new Point(130, y),
                 Size = new Size(150, 32),
@@ -415,7 +415,7 @@ namespace Prueba_1_proyecto_vacaciones.Data
         //  Ensure Database Exists
         // ════════════════════════════════════════════════════════════════════
 
-        private static void EnsureMySqlDatabase(string connectionString)
+        internal static void EnsureMySqlDatabase(string connectionString)
         {
             var builder = new MySqlConnectionStringBuilder(connectionString);
             string dbName = builder.Database;
@@ -428,7 +428,7 @@ namespace Prueba_1_proyecto_vacaciones.Data
             cmd.ExecuteNonQuery();
         }
 
-        private static void EnsureSqlServerDatabase(string connectionString)
+        internal static void EnsureSqlServerDatabase(string connectionString)
         {
             var builder = new SqlConnectionStringBuilder(connectionString);
             string dbName = builder.InitialCatalog;
@@ -441,7 +441,7 @@ namespace Prueba_1_proyecto_vacaciones.Data
             cmd.ExecuteNonQuery();
         }
 
-        private static void EnsurePostgreSqlDatabase(string connectionString)
+        internal static void EnsurePostgreSqlDatabase(string connectionString)
         {
             var builder = new NpgsqlConnectionStringBuilder(connectionString);
             string dbName = builder.Database!;

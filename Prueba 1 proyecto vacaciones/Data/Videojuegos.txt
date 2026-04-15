@@ -1,0 +1,1001 @@
+game_title,platform,genre,rating,multiplayer
+Honorable,PlayStation,RPG,0.1,false
+Honorable,PlayStation,Shooter,6.6,false
+Mrs,PlayStation,Action,2.4,false
+Dr,Xbox,Shooter,1.4,false
+Honorable,PC,Shooter,5.8,false
+Dr,PlayStation,Sports,2.3,false
+Ms,PlayStation,Horror,5.6,false
+Dr,Xbox,Shooter,6.2,false
+Honorable,PlayStation,Romance,0.8,false
+Honorable,Nintendo Switch,Action,3.7,true
+Rev,Xbox,Romance,2.1,true
+Mrs,Xbox,RPG,4.3,true
+Ms,Xbox,Romance,5.6,false
+Ms,PlayStation,Shooter,2.9,true
+Rev,Nintendo Switch,Romance,6.5,false
+Rev,Nintendo Switch,Sports,5.2,false
+Ms,Nintendo Switch,Romance,0.3,true
+Ms,PC,Adventure,4.9,false
+Honorable,PlayStation,Sports,9.3,true
+Mrs,PlayStation,Action,4.3,true
+Ms,Nintendo Switch,Shooter,6.4,false
+Honorable,PC,Sports,9.1,true
+Honorable,Nintendo Switch,Horror,3.6,false
+Ms,PC,Shooter,4.0,true
+Mrs,Nintendo Switch,Sports,2.3,false
+Dr,PC,Romance,0.1,true
+Mrs,PC,Horror,7.4,false
+Honorable,Xbox,Adventure,1.2,false
+Mrs,PlayStation,RPG,8.1,true
+Rev,Nintendo Switch,Adventure,6.2,true
+Ms,PlayStation,Shooter,3.3,false
+Ms,PC,Action,4.7,false
+Mrs,Nintendo Switch,RPG,8.5,true
+Honorable,PlayStation,Action,3.4,false
+Mrs,Xbox,Romance,7.0,false
+Ms,Nintendo Switch,Romance,2.1,true
+Honorable,Xbox,Horror,2.1,true
+Rev,Nintendo Switch,Sports,3.7,false
+Ms,PlayStation,RPG,8.9,true
+Ms,Xbox,RPG,9.4,false
+Rev,PlayStation,Adventure,2.5,false
+Mrs,PlayStation,Romance,6.9,false
+Honorable,Xbox,RPG,9.0,false
+Ms,PC,Sports,5.2,false
+Mr,Xbox,Shooter,5.1,true
+Rev,Nintendo Switch,Horror,6.8,true
+Mrs,PC,RPG,4.4,false
+Rev,Nintendo Switch,RPG,7.2,false
+Mrs,PlayStation,RPG,6.4,false
+Honorable,Nintendo Switch,Horror,0.8,true
+Rev,PlayStation,Romance,0.9,true
+Dr,PC,Shooter,3.6,true
+Mrs,PC,RPG,5.0,true
+Honorable,Nintendo Switch,Romance,6.3,false
+Dr,PC,Sports,2.7,false
+Rev,Nintendo Switch,RPG,5.7,false
+Rev,PC,Romance,4.3,true
+Mrs,Xbox,Sports,2.4,true
+Honorable,Nintendo Switch,Horror,6.8,true
+Mr,PlayStation,RPG,8.3,true
+Mrs,PC,Horror,9.7,true
+Mrs,PC,Action,3.7,true
+Rev,Xbox,Sports,6.5,false
+Honorable,PC,Shooter,7.1,false
+Honorable,PC,Shooter,9.1,false
+Mr,Nintendo Switch,Action,3.9,true
+Ms,PlayStation,Sports,6.6,false
+Mr,Xbox,Shooter,6.3,false
+Dr,Xbox,Adventure,8.2,false
+Ms,Xbox,Action,2.2,true
+Ms,Nintendo Switch,Sports,4.2,false
+Mr,PC,Shooter,2.7,false
+Dr,PC,Horror,8.0,true
+Honorable,Nintendo Switch,Romance,7.2,false
+Honorable,Xbox,RPG,3.0,true
+Rev,Xbox,Romance,4.3,true
+Rev,PC,Shooter,6.4,true
+Dr,PC,Shooter,0.3,true
+Mr,Nintendo Switch,Romance,4.3,false
+Ms,Nintendo Switch,RPG,2.4,false
+Rev,PlayStation,Romance,3.2,true
+Rev,Nintendo Switch,Sports,7.7,false
+Mrs,PlayStation,Sports,4.8,false
+Rev,Nintendo Switch,Adventure,1.5,true
+Honorable,PlayStation,Horror,2.7,true
+Ms,Xbox,Adventure,5.1,true
+Dr,Nintendo Switch,Action,2.5,false
+Honorable,PlayStation,Shooter,9.7,false
+Honorable,PC,Romance,8.3,false
+Honorable,Nintendo Switch,Horror,1.0,true
+Mrs,PlayStation,Shooter,2.1,true
+Honorable,Nintendo Switch,Adventure,4.7,false
+Honorable,PlayStation,Action,6.1,false
+Mr,PlayStation,Shooter,6.4,false
+Honorable,PlayStation,Romance,4.2,false
+Dr,PlayStation,Sports,2.1,false
+Mr,PlayStation,RPG,7.3,true
+Rev,PC,RPG,2.5,true
+Honorable,Xbox,Romance,3.4,false
+Honorable,PlayStation,RPG,0.6,false
+Dr,Nintendo Switch,Romance,7.4,false
+Honorable,Nintendo Switch,Horror,9.6,true
+Mr,PC,RPG,3.9,false
+Ms,Xbox,RPG,8.3,false
+Mr,Nintendo Switch,Romance,8.8,true
+Rev,Xbox,Action,4.2,true
+Rev,Nintendo Switch,Sports,0.1,true
+Honorable,PC,Shooter,3.7,true
+Rev,PC,Shooter,8.0,false
+Rev,Xbox,Romance,7.4,true
+Mr,PlayStation,RPG,8.0,true
+Rev,Xbox,Horror,9.2,false
+Ms,Xbox,Sports,6.9,false
+Dr,PC,Romance,3.5,false
+Dr,PC,Shooter,3.1,false
+Dr,PC,Action,8.2,true
+Dr,Xbox,Action,5.8,true
+Mr,Nintendo Switch,Action,5.7,false
+Rev,Nintendo Switch,Horror,0.2,true
+Rev,PlayStation,Action,4.4,false
+Mrs,Nintendo Switch,RPG,7.0,true
+Ms,PlayStation,Shooter,4.0,true
+Mrs,PC,Romance,1.5,false
+Mr,PC,Action,1.5,false
+Rev,Nintendo Switch,Sports,4.5,true
+Ms,PC,RPG,7.6,false
+Rev,Nintendo Switch,Adventure,9.3,false
+Honorable,Xbox,Sports,5.4,false
+Dr,Xbox,Shooter,6.8,false
+Mrs,Nintendo Switch,Romance,3.4,true
+Honorable,Nintendo Switch,Romance,7.4,false
+Rev,PC,Adventure,7.9,false
+Dr,Nintendo Switch,Adventure,5.1,true
+Rev,PlayStation,Shooter,4.0,false
+Mr,PC,Romance,0.2,true
+Mr,PlayStation,Action,6.0,false
+Mrs,PlayStation,Horror,6.5,false
+Honorable,Nintendo Switch,Romance,1.5,true
+Mrs,Xbox,Adventure,8.0,true
+Dr,PlayStation,Sports,9.4,true
+Mrs,Xbox,Romance,9.4,false
+Ms,PlayStation,RPG,1.9,true
+Ms,PlayStation,Shooter,5.0,false
+Rev,Nintendo Switch,RPG,0.6,false
+Mr,Nintendo Switch,Action,6.5,false
+Dr,Nintendo Switch,Horror,7.8,true
+Rev,Nintendo Switch,Horror,8.0,true
+Rev,Nintendo Switch,RPG,6.3,false
+Honorable,PC,Sports,0.1,false
+Dr,PC,Romance,5.8,true
+Rev,PC,Romance,4.3,false
+Mrs,PC,Romance,4.1,false
+Honorable,PC,Adventure,5.5,false
+Rev,PC,Shooter,4.1,false
+Ms,Nintendo Switch,Sports,9.5,true
+Rev,PC,RPG,1.5,true
+Rev,PlayStation,Adventure,2.6,true
+Honorable,PC,Adventure,3.0,true
+Honorable,PlayStation,Action,1.7,true
+Mrs,Xbox,Sports,1.0,true
+Honorable,Xbox,Sports,9.7,true
+Dr,Xbox,Sports,4.1,false
+Ms,Xbox,Adventure,1.2,false
+Mrs,PlayStation,Adventure,3.6,false
+Rev,PlayStation,RPG,0.6,false
+Dr,Nintendo Switch,Sports,1.4,false
+Rev,Nintendo Switch,RPG,4.0,true
+Ms,PlayStation,Horror,6.1,false
+Ms,PC,Romance,1.9,false
+Ms,Nintendo Switch,Action,6.2,true
+Ms,Nintendo Switch,Action,4.5,true
+Ms,PlayStation,Shooter,2.9,true
+Rev,Nintendo Switch,Horror,0.8,false
+Dr,PC,Romance,6.5,true
+Rev,Xbox,Romance,9.9,true
+Mr,PlayStation,Sports,10.0,false
+Dr,PlayStation,Action,8.5,false
+Rev,PC,Shooter,3.4,true
+Rev,PC,Horror,0.2,false
+Mr,Nintendo Switch,Romance,8.8,true
+Rev,PC,Shooter,7.7,true
+Dr,Nintendo Switch,Adventure,1.1,false
+Mrs,Nintendo Switch,Sports,2.9,true
+Rev,PC,Romance,5.7,true
+Mrs,Nintendo Switch,Sports,3.1,false
+Ms,PC,RPG,0.8,true
+Rev,Nintendo Switch,Horror,7.0,true
+Dr,Nintendo Switch,Action,3.2,true
+Honorable,Xbox,Shooter,7.8,false
+Ms,Xbox,Shooter,0.4,false
+Dr,PC,Romance,1.4,true
+Honorable,PC,Shooter,1.0,false
+Mr,PlayStation,Action,3.2,false
+Dr,PlayStation,Action,0.8,true
+Honorable,PC,Romance,4.4,true
+Mrs,Nintendo Switch,Sports,7.6,true
+Dr,Xbox,Action,9.6,false
+Ms,Xbox,Shooter,9.6,true
+Mrs,PC,Adventure,7.9,false
+Mr,PC,Adventure,7.4,true
+Mrs,Xbox,RPG,8.2,true
+Dr,PlayStation,Romance,4.5,true
+Mrs,Xbox,RPG,4.4,true
+Honorable,PlayStation,RPG,9.6,false
+Ms,Nintendo Switch,Adventure,0.6,true
+Rev,PlayStation,Sports,8.6,true
+Mr,PC,Sports,0.4,true
+Mrs,PlayStation,Sports,8.9,false
+Rev,PlayStation,Shooter,7.0,true
+Honorable,PlayStation,Sports,6.0,false
+Honorable,Nintendo Switch,RPG,9.0,true
+Mrs,PlayStation,Adventure,0.8,true
+Mrs,Xbox,Adventure,8.0,false
+Mr,Xbox,Horror,9.5,true
+Rev,Xbox,RPG,4.0,false
+Ms,Xbox,Adventure,2.3,true
+Rev,PC,Horror,1.9,false
+Ms,PlayStation,RPG,8.4,true
+Dr,PC,Action,8.0,true
+Mr,PlayStation,Sports,8.5,false
+Dr,PlayStation,Romance,6.2,true
+Rev,PlayStation,Romance,1.6,false
+Mr,Nintendo Switch,Shooter,7.2,false
+Honorable,Xbox,Sports,0.0,false
+Ms,PlayStation,Shooter,5.9,false
+Mrs,Nintendo Switch,Horror,8.3,true
+Mrs,Nintendo Switch,Action,8.5,false
+Honorable,PC,Shooter,9.7,false
+Mrs,Nintendo Switch,Sports,0.2,false
+Rev,Xbox,Romance,9.0,false
+Mrs,Xbox,Romance,3.6,false
+Mrs,Xbox,Sports,5.3,true
+Ms,PC,Shooter,9.7,false
+Honorable,PlayStation,Romance,2.8,true
+Honorable,Xbox,Horror,1.2,false
+Mrs,PC,Horror,2.4,true
+Rev,PlayStation,Action,0.3,true
+Ms,Nintendo Switch,RPG,5.2,true
+Honorable,Xbox,Sports,3.0,true
+Ms,PC,Action,7.7,false
+Mrs,Xbox,Adventure,6.1,true
+Mr,Xbox,Romance,5.8,true
+Honorable,PC,RPG,6.6,true
+Ms,Nintendo Switch,Horror,7.6,false
+Rev,PlayStation,Adventure,4.6,true
+Ms,Nintendo Switch,Horror,0.2,false
+Ms,PC,Romance,0.9,true
+Honorable,PC,Horror,5.4,true
+Mrs,Xbox,Adventure,9.3,true
+Dr,PlayStation,Adventure,3.6,true
+Dr,Xbox,Action,4.8,true
+Ms,PlayStation,Adventure,3.5,false
+Mr,Nintendo Switch,Sports,4.1,false
+Dr,PC,Shooter,3.8,false
+Ms,Nintendo Switch,Adventure,2.4,false
+Rev,Nintendo Switch,Shooter,5.3,false
+Ms,PC,Horror,5.7,true
+Mrs,Xbox,Adventure,1.7,true
+Rev,Nintendo Switch,RPG,4.5,true
+Ms,PlayStation,Romance,3.9,false
+Ms,PlayStation,Shooter,0.0,false
+Mrs,Xbox,Shooter,8.3,false
+Rev,PlayStation,Romance,8.0,false
+Ms,PC,Sports,0.4,true
+Dr,Nintendo Switch,Romance,3.9,true
+Dr,Nintendo Switch,Sports,5.3,false
+Ms,PlayStation,Horror,0.8,false
+Dr,PC,Sports,5.0,true
+Mr,PlayStation,Sports,7.1,true
+Ms,PlayStation,Action,3.0,true
+Rev,PC,Adventure,7.6,false
+Dr,PC,Adventure,7.1,true
+Ms,Nintendo Switch,Horror,9.5,false
+Ms,Xbox,Adventure,1.0,false
+Honorable,PlayStation,RPG,8.4,true
+Honorable,Xbox,Romance,7.7,true
+Mr,PC,Shooter,0.6,false
+Mrs,PC,Action,2.5,true
+Mr,PC,Action,2.9,false
+Mrs,PC,Shooter,4.0,true
+Mrs,PlayStation,Horror,5.8,true
+Dr,Xbox,Romance,4.9,false
+Dr,PC,Adventure,9.6,false
+Mr,PC,Adventure,3.8,true
+Honorable,Nintendo Switch,Adventure,9.9,true
+Mrs,PlayStation,Action,2.3,true
+Mrs,PlayStation,Horror,7.3,false
+Honorable,PlayStation,Adventure,0.7,true
+Ms,Nintendo Switch,Sports,4.9,false
+Mrs,Nintendo Switch,Action,7.0,true
+Dr,Xbox,Adventure,3.5,true
+Rev,Nintendo Switch,Adventure,6.4,false
+Mr,PC,Sports,1.4,true
+Mr,PC,Adventure,3.5,true
+Rev,Xbox,Adventure,7.5,true
+Honorable,Nintendo Switch,RPG,6.2,false
+Ms,Xbox,Sports,0.1,false
+Ms,PC,Shooter,0.2,false
+Dr,Xbox,Adventure,0.1,true
+Ms,PlayStation,Action,5.7,false
+Dr,Xbox,Romance,2.6,false
+Honorable,Nintendo Switch,Action,1.8,true
+Dr,PC,Adventure,6.2,false
+Mrs,PlayStation,Action,9.9,false
+Mr,Nintendo Switch,Adventure,5.6,false
+Rev,PlayStation,Sports,2.7,false
+Honorable,PlayStation,RPG,2.7,true
+Ms,PC,Action,8.4,false
+Rev,PC,Shooter,6.1,true
+Mr,Nintendo Switch,Adventure,6.1,false
+Dr,PlayStation,Romance,0.4,true
+Ms,Nintendo Switch,Sports,3.6,false
+Rev,PlayStation,Action,1.0,false
+Mr,PC,Sports,2.6,true
+Mr,PlayStation,RPG,9.7,false
+Ms,Xbox,Adventure,3.9,false
+Mrs,PlayStation,Action,3.4,true
+Ms,PC,Action,0.5,true
+Mr,PC,Horror,2.8,false
+Mr,Xbox,Shooter,8.6,true
+Mrs,Nintendo Switch,Sports,3.9,true
+Dr,Xbox,Action,1.8,true
+Ms,Nintendo Switch,Sports,7.1,true
+Mr,PC,Shooter,9.9,true
+Rev,PC,Sports,7.6,true
+Honorable,Xbox,Adventure,8.1,true
+Mr,Xbox,Shooter,0.2,false
+Ms,PC,Romance,3.8,false
+Ms,Nintendo Switch,Action,3.1,false
+Dr,PC,Shooter,6.0,false
+Dr,Xbox,Action,6.7,false
+Dr,Xbox,RPG,2.3,false
+Rev,Xbox,Adventure,4.5,true
+Dr,PC,Sports,3.9,true
+Ms,PC,Romance,6.1,false
+Rev,PlayStation,Adventure,8.9,true
+Mrs,PlayStation,RPG,0.3,false
+Mr,Xbox,Romance,2.4,false
+Mr,PC,Action,6.2,false
+Mrs,Xbox,Shooter,1.4,false
+Honorable,PlayStation,Action,6.0,true
+Ms,PlayStation,Shooter,3.3,true
+Dr,Xbox,Adventure,0.6,false
+Dr,PC,Adventure,7.7,true
+Mr,Xbox,RPG,3.0,true
+Rev,Xbox,RPG,2.9,true
+Mr,PlayStation,Adventure,9.3,false
+Honorable,PlayStation,RPG,1.3,true
+Mrs,PC,Sports,9.3,false
+Mrs,PC,Shooter,2.1,true
+Ms,PC,Horror,9.2,false
+Honorable,Xbox,Romance,6.7,true
+Ms,PC,Action,8.6,true
+Honorable,PlayStation,Sports,7.3,true
+Rev,Nintendo Switch,Shooter,1.1,true
+Mr,Nintendo Switch,Sports,7.4,false
+Mr,PlayStation,Shooter,6.8,true
+Dr,Nintendo Switch,Adventure,9.3,false
+Dr,PlayStation,Shooter,1.9,true
+Honorable,Xbox,Action,0.1,true
+Mrs,PC,Romance,1.4,false
+Mrs,PlayStation,RPG,8.0,false
+Dr,Nintendo Switch,Shooter,4.6,true
+Mr,PlayStation,Romance,7.9,false
+Ms,PC,Sports,2.5,false
+Mr,PlayStation,Romance,7.2,false
+Mr,PlayStation,Romance,2.2,true
+Dr,Xbox,Horror,4.3,true
+Ms,PC,Sports,5.7,false
+Rev,Nintendo Switch,Shooter,8.9,false
+Mr,PlayStation,RPG,7.8,true
+Mr,PlayStation,Action,6.3,false
+Ms,PlayStation,Shooter,1.0,true
+Mr,PlayStation,Adventure,0.3,true
+Rev,PC,Sports,9.1,false
+Ms,Xbox,Shooter,8.5,true
+Mrs,Nintendo Switch,Adventure,7.0,true
+Honorable,PC,Sports,0.1,true
+Honorable,Nintendo Switch,Shooter,2.8,true
+Ms,Nintendo Switch,Sports,5.4,true
+Rev,Nintendo Switch,Sports,2.6,true
+Rev,PC,Sports,6.1,false
+Mrs,Xbox,Adventure,1.1,false
+Mrs,PlayStation,Horror,0.5,true
+Rev,PlayStation,Romance,1.5,false
+Honorable,Nintendo Switch,Adventure,3.1,false
+Honorable,Xbox,Shooter,9.1,true
+Honorable,Nintendo Switch,Action,9.7,false
+Rev,Nintendo Switch,RPG,7.3,false
+Dr,Xbox,Romance,2.9,false
+Ms,PlayStation,Shooter,6.1,true
+Mrs,PC,Adventure,1.0,true
+Ms,Nintendo Switch,Adventure,6.0,false
+Mrs,Xbox,Romance,8.6,false
+Mrs,Nintendo Switch,Sports,8.8,true
+Mr,Xbox,Horror,10.0,false
+Honorable,PC,Romance,4.0,false
+Dr,PC,Horror,7.3,false
+Ms,Nintendo Switch,RPG,3.4,true
+Mr,PlayStation,Adventure,8.9,false
+Dr,PC,Romance,0.6,true
+Rev,PC,RPG,4.0,false
+Mr,Xbox,Sports,9.7,true
+Mr,Nintendo Switch,Sports,5.3,false
+Dr,Nintendo Switch,Shooter,5.8,true
+Rev,PC,Sports,8.3,false
+Dr,Nintendo Switch,Horror,6.4,false
+Ms,Nintendo Switch,Horror,8.3,true
+Ms,Xbox,Shooter,4.2,true
+Mrs,PC,Horror,4.4,true
+Mr,PC,Shooter,2.1,false
+Honorable,Xbox,Adventure,4.2,true
+Mrs,Nintendo Switch,Adventure,2.2,false
+Ms,PC,Adventure,0.8,false
+Mrs,Xbox,Horror,4.1,true
+Rev,PlayStation,Horror,2.0,true
+Mrs,Xbox,Horror,7.4,true
+Mr,PC,Romance,1.6,true
+Dr,PlayStation,Shooter,3.4,true
+Ms,PlayStation,Action,1.8,false
+Honorable,PC,Action,7.2,false
+Dr,Xbox,Sports,5.3,true
+Dr,PlayStation,Adventure,6.4,true
+Honorable,PlayStation,RPG,3.7,true
+Mrs,Nintendo Switch,Romance,10.0,false
+Mr,Xbox,RPG,6.0,false
+Mr,Nintendo Switch,Adventure,5.7,true
+Honorable,Nintendo Switch,RPG,5.0,false
+Mr,Xbox,Shooter,9.1,true
+Rev,Nintendo Switch,RPG,7.8,true
+Dr,PlayStation,Adventure,0.1,false
+Mrs,Nintendo Switch,Horror,2.0,true
+Ms,PlayStation,Romance,7.9,false
+Honorable,Nintendo Switch,Horror,8.6,true
+Honorable,PlayStation,RPG,8.5,false
+Honorable,PlayStation,RPG,1.8,false
+Ms,Xbox,Adventure,9.8,true
+Mr,PC,Romance,6.3,false
+Honorable,Nintendo Switch,Horror,8.4,false
+Ms,PlayStation,Shooter,0.2,true
+Dr,PC,Sports,3.0,false
+Mrs,PC,RPG,7.9,true
+Dr,Xbox,Shooter,3.6,false
+Honorable,Nintendo Switch,Romance,7.1,true
+Mrs,Nintendo Switch,RPG,4.2,false
+Ms,Nintendo Switch,RPG,0.4,false
+Mrs,PlayStation,Sports,2.0,false
+Mrs,PlayStation,Sports,6.6,false
+Honorable,PlayStation,Action,8.5,true
+Ms,PlayStation,Adventure,4.7,true
+Honorable,Xbox,Shooter,4.1,false
+Dr,PlayStation,Action,2.0,true
+Rev,Xbox,RPG,0.1,false
+Mr,PC,Action,9.7,false
+Honorable,Nintendo Switch,Adventure,2.6,false
+Ms,Xbox,Action,2.5,false
+Dr,Nintendo Switch,Action,7.6,true
+Mr,PC,Horror,5.0,true
+Rev,PC,Sports,0.2,false
+Mr,PC,Horror,2.0,true
+Ms,Xbox,RPG,9.8,true
+Mr,Nintendo Switch,Action,8.6,false
+Mrs,Nintendo Switch,RPG,7.8,false
+Rev,PC,RPG,5.5,false
+Rev,PC,Adventure,0.3,false
+Mrs,PC,Adventure,4.8,false
+Mr,PlayStation,Romance,9.4,true
+Ms,PC,RPG,5.7,false
+Dr,PC,Horror,1.0,false
+Mr,PlayStation,Sports,1.9,true
+Ms,Xbox,Romance,0.9,false
+Rev,PC,Shooter,6.8,true
+Honorable,PC,Romance,5.1,true
+Mrs,PlayStation,Sports,8.6,false
+Honorable,PlayStation,Adventure,0.7,false
+Mr,PlayStation,Adventure,7.5,false
+Honorable,PlayStation,RPG,7.8,true
+Ms,Nintendo Switch,Romance,7.7,false
+Dr,Nintendo Switch,Horror,8.6,true
+Honorable,Xbox,RPG,4.2,true
+Dr,Nintendo Switch,Adventure,0.3,false
+Honorable,Nintendo Switch,Action,0.9,true
+Mrs,PlayStation,Sports,8.0,true
+Ms,PlayStation,Shooter,7.1,false
+Honorable,Xbox,Romance,3.5,true
+Dr,Xbox,RPG,8.2,true
+Mrs,PC,Adventure,6.8,false
+Mrs,Xbox,Shooter,2.7,true
+Rev,Xbox,Horror,4.0,true
+Honorable,PC,Sports,7.2,true
+Mr,Nintendo Switch,Shooter,0.8,true
+Mr,PC,RPG,9.1,false
+Dr,PC,Adventure,4.6,true
+Dr,PlayStation,Sports,1.1,false
+Honorable,PlayStation,Horror,6.6,false
+Rev,Nintendo Switch,Action,3.8,false
+Honorable,PC,Horror,4.4,false
+Ms,PC,Action,2.8,true
+Ms,Nintendo Switch,Sports,0.3,true
+Dr,PC,Action,7.4,false
+Mr,PlayStation,Horror,3.4,false
+Ms,PlayStation,Action,1.3,true
+Dr,PC,Adventure,2.9,false
+Ms,PlayStation,RPG,8.9,false
+Rev,PC,Sports,0.1,true
+Mrs,PC,Horror,4.6,true
+Ms,PlayStation,Action,5.4,false
+Dr,PlayStation,Romance,2.9,true
+Ms,PC,Shooter,0.7,false
+Rev,Xbox,Sports,7.0,true
+Rev,Xbox,RPG,5.6,true
+Mr,Xbox,Sports,7.7,false
+Dr,PlayStation,Action,7.9,true
+Ms,PlayStation,Sports,3.2,true
+Dr,Xbox,Horror,9.3,true
+Mrs,Nintendo Switch,Horror,0.9,false
+Dr,Xbox,Romance,6.4,true
+Mr,PlayStation,Action,5.0,false
+Honorable,Nintendo Switch,Horror,1.9,true
+Rev,Nintendo Switch,Sports,2.9,false
+Mr,Xbox,Horror,9.3,true
+Dr,PlayStation,Action,1.4,false
+Ms,Xbox,Shooter,6.8,false
+Ms,Xbox,Adventure,7.8,false
+Honorable,Nintendo Switch,Adventure,3.9,false
+Mrs,Nintendo Switch,Action,5.5,true
+Ms,PlayStation,Adventure,6.0,false
+Dr,Xbox,Adventure,0.6,false
+Rev,Xbox,Shooter,4.5,false
+Dr,PC,Action,7.3,true
+Mr,Xbox,RPG,0.7,false
+Mrs,Nintendo Switch,Action,1.8,false
+Rev,Nintendo Switch,Romance,3.6,false
+Dr,Nintendo Switch,Action,6.9,false
+Honorable,Nintendo Switch,Shooter,9.6,false
+Honorable,PC,RPG,1.8,true
+Dr,Nintendo Switch,Romance,0.3,false
+Mr,Nintendo Switch,Action,4.7,true
+Honorable,Xbox,Action,8.5,false
+Mr,Xbox,Adventure,7.8,false
+Rev,PlayStation,Sports,0.3,true
+Rev,PlayStation,Action,6.5,true
+Rev,PC,Horror,7.1,true
+Mrs,PlayStation,Romance,4.9,true
+Dr,PC,Sports,8.5,true
+Mr,PC,Horror,3.5,false
+Ms,PlayStation,RPG,0.2,false
+Ms,Xbox,Action,8.4,false
+Rev,PlayStation,Action,2.5,false
+Mr,Xbox,Sports,0.0,false
+Dr,Xbox,Horror,6.2,true
+Rev,Nintendo Switch,RPG,9.6,false
+Mrs,Xbox,Romance,7.0,false
+Mr,Nintendo Switch,RPG,4.6,false
+Mrs,PlayStation,Shooter,7.6,false
+Honorable,Xbox,Adventure,5.3,true
+Rev,Nintendo Switch,Adventure,9.2,true
+Honorable,Nintendo Switch,Adventure,3.7,true
+Ms,PC,Romance,4.0,true
+Mr,Xbox,RPG,3.8,true
+Dr,PlayStation,Shooter,9.8,false
+Mr,PlayStation,Action,8.6,false
+Mr,Nintendo Switch,Action,8.8,true
+Rev,PlayStation,Shooter,3.2,true
+Mrs,Xbox,Sports,4.0,false
+Mrs,PlayStation,Horror,8.4,false
+Mr,PC,Action,4.9,false
+Dr,PC,Adventure,4.4,true
+Ms,PlayStation,Horror,1.4,true
+Ms,PlayStation,Horror,8.0,true
+Rev,Nintendo Switch,RPG,1.5,true
+Rev,Xbox,RPG,9.5,true
+Rev,PlayStation,Romance,1.4,true
+Honorable,PlayStation,Shooter,7.0,false
+Ms,PlayStation,RPG,6.1,false
+Mrs,Nintendo Switch,Sports,9.1,false
+Ms,PC,Horror,1.2,false
+Dr,Nintendo Switch,Shooter,2.2,false
+Mr,PlayStation,Sports,3.9,false
+Mr,PlayStation,Adventure,4.9,false
+Mrs,Nintendo Switch,Romance,5.1,false
+Ms,PC,Sports,0.1,true
+Rev,Xbox,Adventure,7.6,false
+Honorable,PlayStation,Action,5.0,true
+Rev,Nintendo Switch,RPG,6.7,false
+Mrs,PlayStation,Adventure,9.5,true
+Mrs,PC,Romance,6.5,true
+Dr,PlayStation,Action,6.5,true
+Mrs,Nintendo Switch,Adventure,6.7,true
+Ms,Nintendo Switch,RPG,8.3,true
+Mrs,Xbox,Romance,8.9,true
+Mrs,PC,Romance,3.2,true
+Rev,PlayStation,Romance,0.9,true
+Dr,Nintendo Switch,Adventure,3.8,true
+Rev,PlayStation,Romance,0.2,false
+Mr,PlayStation,Adventure,2.6,false
+Mrs,Xbox,RPG,9.5,false
+Honorable,Xbox,Shooter,0.1,false
+Rev,Nintendo Switch,Romance,8.0,false
+Dr,Nintendo Switch,Action,8.1,false
+Mrs,Nintendo Switch,Adventure,2.3,false
+Honorable,Xbox,RPG,5.8,false
+Mr,PlayStation,RPG,2.5,false
+Honorable,PC,Horror,4.3,false
+Rev,PlayStation,Adventure,7.0,true
+Mr,Nintendo Switch,Romance,3.5,false
+Rev,Nintendo Switch,Romance,3.3,false
+Honorable,Xbox,Action,4.0,false
+Mrs,Nintendo Switch,Romance,2.4,true
+Mrs,Nintendo Switch,Shooter,9.3,true
+Mrs,PC,Shooter,9.3,false
+Mr,PlayStation,Adventure,3.9,true
+Mrs,PlayStation,Adventure,0.0,false
+Honorable,PC,Adventure,6.0,false
+Mrs,PlayStation,Romance,3.7,true
+Rev,Xbox,Horror,4.4,false
+Ms,PlayStation,Horror,2.8,true
+Honorable,Nintendo Switch,RPG,7.6,false
+Honorable,Nintendo Switch,Romance,4.6,false
+Mr,PC,Adventure,7.6,false
+Mr,PlayStation,RPG,5.5,false
+Mr,Xbox,Horror,7.3,false
+Mrs,PC,Sports,3.0,true
+Rev,Nintendo Switch,Romance,9.3,false
+Rev,PC,Adventure,2.5,false
+Ms,Xbox,Action,2.6,true
+Mr,PC,Action,5.7,false
+Mr,PlayStation,Adventure,7.9,false
+Mrs,Xbox,Romance,6.6,false
+Ms,Xbox,RPG,9.4,true
+Ms,PlayStation,Sports,9.0,false
+Mr,PlayStation,Horror,6.8,false
+Dr,Xbox,Romance,8.8,false
+Ms,PC,Action,5.6,true
+Honorable,Nintendo Switch,Horror,5.4,true
+Rev,Nintendo Switch,Horror,7.3,false
+Mrs,PC,Action,6.2,false
+Dr,PlayStation,Action,4.3,true
+Rev,Nintendo Switch,Action,9.5,true
+Honorable,Xbox,Action,3.9,false
+Rev,PlayStation,Action,5.5,false
+Ms,Nintendo Switch,RPG,3.9,false
+Rev,Nintendo Switch,Sports,2.8,true
+Mrs,PlayStation,Horror,3.3,false
+Mr,PlayStation,Horror,5.7,false
+Ms,PlayStation,RPG,6.7,true
+Dr,Nintendo Switch,Sports,1.2,true
+Honorable,Nintendo Switch,Horror,6.9,false
+Dr,Nintendo Switch,Horror,9.9,true
+Mr,PlayStation,RPG,6.5,true
+Rev,Nintendo Switch,Adventure,9.8,true
+Rev,Nintendo Switch,Horror,6.4,true
+Mr,PlayStation,Horror,2.4,false
+Rev,PC,Shooter,9.8,false
+Ms,PC,Horror,2.1,true
+Honorable,Nintendo Switch,Horror,1.9,true
+Honorable,PlayStation,Adventure,2.0,true
+Dr,Nintendo Switch,RPG,8.4,false
+Honorable,PlayStation,Sports,8.9,false
+Mrs,PlayStation,Shooter,1.4,true
+Ms,Xbox,Romance,3.5,true
+Mrs,PlayStation,Sports,5.8,true
+Mr,Nintendo Switch,Romance,1.0,true
+Dr,PlayStation,RPG,1.2,true
+Mrs,Nintendo Switch,Adventure,8.5,true
+Honorable,Xbox,Adventure,3.7,true
+Ms,PlayStation,Sports,1.0,true
+Ms,Xbox,Romance,4.6,false
+Mr,PC,Sports,2.7,true
+Rev,Xbox,Horror,1.3,false
+Ms,PC,Romance,0.3,false
+Honorable,Nintendo Switch,RPG,7.8,false
+Rev,Nintendo Switch,Horror,6.0,false
+Mrs,Xbox,Romance,0.6,true
+Rev,Nintendo Switch,Action,7.3,true
+Dr,Xbox,Sports,6.6,false
+Honorable,PC,RPG,0.3,false
+Honorable,PC,Romance,1.6,true
+Dr,PlayStation,Shooter,8.8,true
+Mr,PlayStation,Sports,0.6,false
+Ms,Nintendo Switch,Adventure,9.9,false
+Honorable,Nintendo Switch,Sports,0.2,true
+Mrs,Nintendo Switch,Romance,1.4,false
+Ms,PC,Horror,1.8,true
+Rev,PC,RPG,3.5,true
+Mr,PC,RPG,7.8,false
+Dr,PlayStation,Action,6.0,true
+Ms,PC,RPG,2.4,false
+Honorable,PlayStation,Horror,9.7,false
+Dr,Nintendo Switch,Adventure,7.3,true
+Honorable,PC,Horror,4.2,true
+Mr,PlayStation,Action,5.8,true
+Mr,Xbox,Adventure,3.3,false
+Mrs,Nintendo Switch,Romance,3.5,false
+Honorable,PC,Horror,8.2,false
+Honorable,Nintendo Switch,Shooter,4.5,true
+Mrs,Nintendo Switch,Sports,2.0,false
+Dr,PC,Shooter,5.5,false
+Mrs,Nintendo Switch,Sports,2.1,true
+Ms,PC,Action,7.5,true
+Rev,PlayStation,Action,4.9,false
+Honorable,PlayStation,Romance,2.6,true
+Honorable,Xbox,Horror,2.0,false
+Dr,PC,Horror,9.1,true
+Mr,PlayStation,Horror,7.5,true
+Honorable,Nintendo Switch,Shooter,9.0,false
+Mrs,PC,Action,7.0,false
+Ms,Xbox,Horror,5.9,false
+Ms,PC,Sports,2.0,false
+Ms,Nintendo Switch,Shooter,0.8,false
+Mr,PlayStation,Horror,4.0,true
+Dr,Xbox,Horror,8.9,true
+Rev,PlayStation,Action,5.0,true
+Dr,PlayStation,Sports,0.7,false
+Mr,Xbox,Sports,9.2,false
+Honorable,PlayStation,Sports,8.0,false
+Rev,PlayStation,Adventure,4.6,false
+Mrs,Xbox,Horror,6.8,false
+Mrs,PlayStation,Shooter,5.4,false
+Honorable,PlayStation,Action,2.5,true
+Honorable,Xbox,RPG,6.4,true
+Mrs,PC,Romance,8.9,true
+Rev,Xbox,Adventure,2.7,false
+Mrs,Nintendo Switch,RPG,1.5,false
+Mr,Nintendo Switch,Sports,6.9,false
+Dr,Xbox,Sports,6.4,true
+Dr,Xbox,Sports,6.5,false
+Mr,PlayStation,Adventure,5.1,false
+Mrs,Xbox,Sports,7.7,false
+Honorable,Nintendo Switch,Action,7.3,false
+Ms,Nintendo Switch,Action,5.1,true
+Honorable,Nintendo Switch,Romance,2.1,false
+Honorable,PlayStation,Adventure,7.8,true
+Mr,Xbox,Romance,7.6,true
+Dr,Xbox,Sports,4.3,true
+Mr,Xbox,Romance,1.4,true
+Mr,PC,Horror,4.0,false
+Ms,Xbox,Shooter,3.5,false
+Rev,PlayStation,Action,4.2,false
+Rev,Xbox,Sports,1.4,false
+Ms,Nintendo Switch,Horror,1.5,true
+Ms,PlayStation,Shooter,9.3,true
+Dr,Nintendo Switch,Action,8.2,false
+Honorable,PlayStation,Shooter,2.3,false
+Rev,Nintendo Switch,RPG,4.5,true
+Rev,Nintendo Switch,RPG,1.3,true
+Rev,Nintendo Switch,RPG,2.4,true
+Ms,PC,Adventure,10.0,true
+Mr,Xbox,RPG,5.7,true
+Dr,PC,Shooter,6.7,false
+Honorable,Xbox,Shooter,4.0,true
+Mrs,Xbox,Horror,8.8,false
+Honorable,Nintendo Switch,Adventure,8.9,true
+Ms,PC,Shooter,5.0,true
+Honorable,PC,Action,5.0,false
+Dr,PC,Shooter,3.8,true
+Honorable,PC,Horror,3.2,true
+Honorable,PC,RPG,0.2,true
+Ms,Nintendo Switch,Horror,7.2,true
+Dr,Nintendo Switch,Romance,4.9,false
+Mr,PC,Sports,2.1,true
+Honorable,Nintendo Switch,Shooter,5.5,false
+Mrs,PlayStation,RPG,6.3,false
+Mr,Xbox,Romance,0.7,true
+Mr,Nintendo Switch,Adventure,7.4,false
+Mr,Nintendo Switch,Romance,3.3,false
+Rev,PlayStation,Action,6.8,true
+Dr,Xbox,Romance,7.4,true
+Rev,PlayStation,Shooter,8.6,false
+Mr,Xbox,Romance,1.3,false
+Rev,PC,Action,0.3,true
+Mrs,Nintendo Switch,RPG,0.5,false
+Rev,Xbox,Sports,5.0,true
+Dr,PlayStation,Shooter,9.8,false
+Rev,Nintendo Switch,Romance,0.5,false
+Mr,PlayStation,Sports,4.4,false
+Honorable,PC,Shooter,2.8,true
+Honorable,Nintendo Switch,Adventure,4.8,true
+Dr,PlayStation,RPG,1.0,true
+Rev,Nintendo Switch,Shooter,2.1,true
+Dr,PC,Action,8.6,true
+Mr,Xbox,Shooter,7.6,false
+Mrs,Nintendo Switch,Shooter,5.4,false
+Rev,Nintendo Switch,Shooter,8.4,true
+Honorable,PlayStation,Shooter,0.8,true
+Dr,Nintendo Switch,Action,9.5,true
+Dr,PC,Romance,3.5,true
+Dr,Nintendo Switch,Horror,9.1,false
+Mrs,PlayStation,Horror,8.3,true
+Mrs,PlayStation,Sports,7.7,true
+Honorable,Nintendo Switch,Horror,4.9,false
+Mrs,PlayStation,RPG,4.3,true
+Ms,Nintendo Switch,Adventure,6.8,true
+Mr,PlayStation,Horror,5.8,false
+Mrs,Nintendo Switch,Romance,3.1,true
+Mrs,PC,Sports,2.5,true
+Mr,PC,Shooter,6.9,true
+Rev,PC,RPG,9.0,true
+Ms,PlayStation,RPG,3.3,true
+Mrs,PlayStation,Shooter,6.6,true
+Rev,PC,Romance,0.4,true
+Honorable,Xbox,Adventure,6.2,true
+Mr,Nintendo Switch,RPG,3.6,true
+Dr,Nintendo Switch,RPG,3.5,true
+Mr,PC,Horror,3.2,true
+Dr,Xbox,Romance,5.2,true
+Mr,PC,Horror,7.8,false
+Mr,Nintendo Switch,RPG,6.4,false
+Honorable,PlayStation,Action,0.1,false
+Rev,PlayStation,Action,1.9,true
+Honorable,Xbox,Romance,5.3,false
+Mr,PlayStation,Action,7.3,false
+Dr,Xbox,Sports,9.2,true
+Ms,Xbox,Shooter,7.7,true
+Mrs,Xbox,RPG,7.2,false
+Mr,PlayStation,RPG,1.2,false
+Rev,Xbox,Horror,3.3,false
+Ms,Nintendo Switch,Sports,5.2,false
+Honorable,PlayStation,Action,4.6,false
+Dr,PlayStation,RPG,1.2,false
+Mrs,PC,Action,4.0,true
+Mr,Nintendo Switch,Shooter,2.7,true
+Dr,Nintendo Switch,Sports,5.7,false
+Mrs,Xbox,Action,9.6,true
+Mr,Nintendo Switch,Romance,4.4,false
+Ms,PC,Horror,9.8,true
+Mrs,PC,Horror,0.7,false
+Mr,Xbox,Sports,9.0,true
+Mrs,PC,Romance,7.4,true
+Mr,Xbox,Horror,1.1,true
+Dr,Nintendo Switch,Shooter,1.0,false
+Rev,PC,Sports,5.0,true
+Rev,Xbox,Shooter,3.5,true
+Ms,PC,Sports,4.8,false
+Dr,Nintendo Switch,Sports,9.6,false
+Honorable,PlayStation,RPG,9.8,true
+Honorable,PC,Horror,9.2,true
+Ms,PlayStation,Action,2.3,true
+Dr,Xbox,Action,9.1,true
+Honorable,Nintendo Switch,Adventure,2.7,false
+Mrs,Nintendo Switch,Horror,8.7,true
+Honorable,PlayStation,Horror,7.1,true
+Mrs,PC,Shooter,5.8,true
+Rev,Xbox,Romance,8.5,true
+Dr,Nintendo Switch,Shooter,7.6,true
+Dr,PlayStation,Horror,2.7,false
+Honorable,PlayStation,Romance,0.3,false
+Rev,Nintendo Switch,RPG,4.3,false
+Dr,PC,Action,5.0,false
+Dr,Nintendo Switch,RPG,4.8,true
+Ms,Nintendo Switch,Horror,0.2,false
+Mr,PC,Adventure,2.6,true
+Honorable,PC,Action,3.3,true
+Honorable,Nintendo Switch,Shooter,8.5,false
+Mrs,Xbox,Sports,8.5,false
+Honorable,PlayStation,RPG,3.7,true
+Ms,PC,Adventure,8.1,false
+Mr,Xbox,Shooter,6.6,true
+Dr,Xbox,Sports,1.7,true
+Mr,PlayStation,Horror,7.0,true
+Rev,PlayStation,Action,9.1,false
+Mrs,PC,Sports,3.6,false
+Mr,Nintendo Switch,Horror,9.8,false
+Mr,PlayStation,Horror,3.5,false
+Honorable,Xbox,Adventure,2.0,false
+Dr,PC,Horror,0.5,false
+Mrs,PC,Shooter,3.0,false
+Mrs,PC,RPG,9.4,false
+Mr,Xbox,RPG,8.5,true
+Honorable,Nintendo Switch,Sports,4.8,true
+Ms,Nintendo Switch,Adventure,7.7,true
+Honorable,PlayStation,Action,4.2,false
+Honorable,Xbox,Horror,2.2,false
+Ms,PC,Horror,2.4,true
+Mrs,Xbox,Action,4.1,false
+Rev,Xbox,RPG,1.6,true
+Mr,PlayStation,RPG,0.7,false
+Dr,PlayStation,Adventure,5.9,true
+Rev,Nintendo Switch,Shooter,6.0,false
+Dr,PC,Romance,10.0,false
+Rev,PC,Horror,8.5,true
+Rev,PlayStation,Adventure,7.9,false
+Honorable,Nintendo Switch,Horror,9.6,true
+Mrs,PC,Adventure,5.0,true
+Ms,Nintendo Switch,Action,4.6,true
+Honorable,PC,Action,9.6,false
+Ms,Xbox,Horror,4.9,false
+Mrs,Nintendo Switch,Sports,7.5,false
+Honorable,PlayStation,RPG,2.5,true
+Mrs,PC,Sports,9.1,true
+Dr,Xbox,Action,5.1,false
+Rev,Nintendo Switch,Action,3.7,true
+Mr,Xbox,Horror,7.3,true
+Dr,PlayStation,Action,1.0,true
+Rev,Xbox,Action,7.8,false
+Rev,Nintendo Switch,RPG,1.6,true
+Honorable,Nintendo Switch,Adventure,3.6,true
+Dr,PlayStation,Action,6.4,true
+Honorable,Xbox,RPG,8.7,true
+Honorable,Nintendo Switch,Shooter,6.9,false
+Ms,PC,Action,2.5,false
+Rev,PlayStation,Shooter,9.8,false
+Dr,Nintendo Switch,Romance,1.6,true
+Dr,Nintendo Switch,Action,8.3,true
+Honorable,PlayStation,RPG,2.7,false
+Rev,Xbox,Action,1.8,false
+Ms,PC,Shooter,2.0,false
+Dr,Nintendo Switch,Horror,6.4,false
+Dr,PlayStation,RPG,3.8,false
+Mr,PC,Sports,2.4,false
+Mr,PlayStation,Romance,7.2,false
+Mr,PC,Romance,4.9,false
+Ms,PlayStation,Adventure,0.1,false
+Rev,Xbox,Sports,8.7,true
+Honorable,PC,Shooter,9.2,true
+Rev,Xbox,RPG,0.2,true
+Ms,PC,Adventure,3.5,false
+Mr,Xbox,RPG,1.6,true
+Ms,PC,Shooter,5.7,false
+Dr,Xbox,RPG,1.9,true
+Ms,PlayStation,Shooter,6.4,true
+Mr,PC,Shooter,5.3,true
+Ms,PC,Romance,9.3,false
+Mrs,Nintendo Switch,RPG,9.5,true
+Honorable,Xbox,Romance,9.2,true
+Ms,Xbox,Romance,2.0,true
+Ms,Xbox,RPG,1.3,false
+Rev,PlayStation,Romance,9.5,false
+Rev,PC,Sports,5.0,true
+Rev,PC,Action,4.1,true
+Ms,Nintendo Switch,Action,5.6,true
+Ms,PlayStation,Romance,6.7,true
+Rev,Nintendo Switch,RPG,1.1,true
+Ms,PC,Sports,5.9,true
+Rev,PlayStation,Sports,3.7,false
+Dr,PC,Sports,4.9,false
+Rev,Nintendo Switch,Horror,8.1,false
+Mr,Nintendo Switch,Action,3.5,false
+Ms,PC,Sports,9.8,true
+Mr,Nintendo Switch,Romance,5.4,false
+Dr,PC,Romance,1.9,false
+Rev,PlayStation,Horror,2.3,true
+Mr,Nintendo Switch,Adventure,6.9,false
+Honorable,Nintendo Switch,Horror,1.6,false
+Mr,Xbox,Shooter,0.9,true
+Mrs,PC,Adventure,3.0,true
+Mrs,Nintendo Switch,Sports,2.6,false
+Mrs,PlayStation,Horror,7.2,true
+Honorable,Nintendo Switch,Adventure,1.4,true
+Mrs,Nintendo Switch,RPG,7.9,true
+Mr,Xbox,Adventure,2.7,true
+Honorable,Xbox,Adventure,8.3,false
+Mr,PC,RPG,7.6,false
+Dr,PC,Romance,6.4,false
+Rev,Nintendo Switch,Horror,9.8,true
+Rev,Xbox,Adventure,1.5,true
+Mrs,Xbox,Sports,8.5,true
+Mrs,Nintendo Switch,RPG,3.1,false
+Dr,PlayStation,Horror,3.7,false
+Mrs,Xbox,Shooter,1.8,true
+Rev,PlayStation,Shooter,4.8,true
+Honorable,PlayStation,Sports,4.3,false
+Mrs,Nintendo Switch,Horror,8.2,false
+Ms,Xbox,Adventure,5.9,true
+Mr,Xbox,Shooter,2.7,true
+Ms,PlayStation,Horror,9.5,false
+Ms,Xbox,Romance,1.0,false
+Dr,PC,Romance,9.0,false
+Ms,PlayStation,Sports,0.7,true
+Rev,PC,Action,4.5,true
+Honorable,Nintendo Switch,Sports,8.1,true
+Mr,PlayStation,Adventure,4.5,false
+Mr,PlayStation,RPG,8.4,false
+Rev,Nintendo Switch,RPG,1.4,false
+Dr,Xbox,Sports,9.6,true
+Dr,PC,Shooter,6.6,true
+Ms,Xbox,Action,4.0,false
+Dr,PlayStation,Sports,3.2,true
+Mr,PlayStation,Sports,9.6,false
+Mrs,PlayStation,Horror,7.6,true
+Mr,PC,RPG,9.3,false
+Mrs,Nintendo Switch,Adventure,3.4,true
+Mrs,PlayStation,Romance,6.8,true
+Mr,Nintendo Switch,Action,4.6,false
+Honorable,PlayStation,Action,9.2,true
+Mr,PlayStation,Horror,8.7,false
+Mr,Nintendo Switch,Shooter,9.9,true
+Dr,Xbox,Shooter,9.9,true
+Mr,PlayStation,Action,3.6,true
+Rev,PC,Horror,7.0,false
+Ms,PC,RPG,3.5,true
+Mrs,PlayStation,Shooter,4.9,true
+Dr,PC,Horror,9.4,false
+Ms,Nintendo Switch,RPG,2.6,true
+Ms,Nintendo Switch,Horror,3.9,false
+Dr,Nintendo Switch,Adventure,3.2,false
+Rev,PlayStation,Action,6.1,false
+Honorable,Nintendo Switch,Action,1.7,true
+Honorable,PlayStation,Shooter,2.2,false
+Mrs,PC,Adventure,9.6,true
