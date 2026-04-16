@@ -51,6 +51,9 @@ namespace Prueba_1_proyecto_vacaciones
             btnExportMariaDb = new Button();
             btnExportSql = new Button();
             lblExport = new Label();
+            btnExportFileJson = new Button();
+            btnExportFileTxt = new Button();
+            btnExportFileXml = new Button();
             pnlTop.SuspendLayout();
             tabControl.SuspendLayout();
             tabData.SuspendLayout();
@@ -459,6 +462,9 @@ namespace Prueba_1_proyecto_vacaciones
             // pnlExport
             // 
             pnlExport.BackColor = Color.FromArgb(50, 35, 30);
+            pnlExport.Controls.Add(btnExportFileXml);
+            pnlExport.Controls.Add(btnExportFileTxt);
+            pnlExport.Controls.Add(btnExportFileJson);
             pnlExport.Controls.Add(btnExportPostgre);
             pnlExport.Controls.Add(btnExportMariaDb);
             pnlExport.Controls.Add(btnExportSql);
@@ -517,7 +523,46 @@ namespace Prueba_1_proyecto_vacaciones
             lblExport.Name = "lblExport";
             lblExport.Size = new Size(160, 21);
             lblExport.TabIndex = 3;
-            lblExport.Text = "📤 EXPORTAR a BD:";
+            lblExport.Text = "📤 EXPORTAR:";
+            // 
+            // btnExportFileJson
+            // 
+            btnExportFileJson.BackColor = Color.FromArgb(200, 100, 0);
+            btnExportFileJson.FlatStyle = FlatStyle.Flat;
+            btnExportFileJson.ForeColor = Color.White;
+            btnExportFileJson.Location = new Point(555, 7);
+            btnExportFileJson.Name = "btnExportFileJson";
+            btnExportFileJson.Size = new Size(105, 28);
+            btnExportFileJson.TabIndex = 4;
+            btnExportFileJson.Text = "📤 JSON";
+            btnExportFileJson.UseVisualStyleBackColor = false;
+            btnExportFileJson.Click += btnExportFileJson_Click;
+            // 
+            // btnExportFileTxt
+            // 
+            btnExportFileTxt.BackColor = Color.FromArgb(130, 60, 160);
+            btnExportFileTxt.FlatStyle = FlatStyle.Flat;
+            btnExportFileTxt.ForeColor = Color.White;
+            btnExportFileTxt.Location = new Point(670, 7);
+            btnExportFileTxt.Name = "btnExportFileTxt";
+            btnExportFileTxt.Size = new Size(105, 28);
+            btnExportFileTxt.TabIndex = 5;
+            btnExportFileTxt.Text = "📤 TXT";
+            btnExportFileTxt.UseVisualStyleBackColor = false;
+            btnExportFileTxt.Click += btnExportFileTxt_Click;
+            // 
+            // btnExportFileXml
+            // 
+            btnExportFileXml.BackColor = Color.FromArgb(0, 100, 180);
+            btnExportFileXml.FlatStyle = FlatStyle.Flat;
+            btnExportFileXml.ForeColor = Color.White;
+            btnExportFileXml.Location = new Point(785, 7);
+            btnExportFileXml.Name = "btnExportFileXml";
+            btnExportFileXml.Size = new Size(105, 28);
+            btnExportFileXml.TabIndex = 6;
+            btnExportFileXml.Text = "📤 XML";
+            btnExportFileXml.UseVisualStyleBackColor = false;
+            btnExportFileXml.Click += btnExportFileXml_Click;
             // 
             // Form1
             // 
@@ -590,5 +635,8 @@ namespace Prueba_1_proyecto_vacaciones
         private Button btnExportSql;
         private Button btnExportMariaDb;
         private Button btnExportPostgre;
+        private Button btnExportFileJson;
+        private Button btnExportFileTxt;
+        private Button btnExportFileXml;
     }
 }

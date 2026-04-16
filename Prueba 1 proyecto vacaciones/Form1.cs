@@ -1,6 +1,9 @@
 using System.Data;
+using System.Globalization;
 using System.Text;
+using System.Text.Json;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Xml;
 using Prueba_1_proyecto_vacaciones.Data;
 using Prueba_1_proyecto_vacaciones.Models;
 using Prueba_1_proyecto_vacaciones.Processing;
@@ -884,6 +887,193 @@ namespace Prueba_1_proyecto_vacaciones
                 Color.FromArgb(255, 99, 71),    // Tomato
             ];
             return palette[index % palette.Length];
+        }
+
+        // ════════════════════════════════════════════════════════════════════
+        //  EXPORTACION A ARCHIVOS (JSON, TXT, XML)
+        // ════════════════════════════════════════════════════════════════════
+
+        private void btnExportFileJson_Click(object? sender, EventArgs e)
+            => ExportToFile("JSON", "Archivos JSON|*.json", ExportItemsToJson);
+
+        private void btnExportFileTxt_Click(object? sender, EventArgs e)
+            => ExportToFile("TXT", "Archivos de texto|*.txt", ExportItemsToTxt);
+
+        private void btnExportFileXml_Click(object? sender, EventArgs e)
+            => ExportToFile("XML", "Archivos XML|*.xml", ExportItemsToXml);
+
+        private void ExportToFile(string format, string filter, Action<List<DataItem>, string> writeAction)
+        {
+            if (!HasData()) return;
+
+            using var dlg = new SaveFileDialog
+            {
+                Title = $"Exportar datos a {format}",
+                Filter = filter,
+                FileName = $"datos_exportados"
+            };
+
+            if (dlg.ShowDialog() != DialogResult.OK) return;
+
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                writeAction(_allItems, dlg.FileName);
+                Cursor = Cursors.Default;
+                lblStatus.Text = $"Exportados {_allItems.Count} registros a '{Path.GetFileName(dlg.FileName)}'";
+                MessageBox.Show(
+                    $"Se exportaron {_allItems.Count} registros a:\n{dlg.FileName}",
+                    "Exportacion exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Cursor = Cursors.Default;
+                MessageBox.Show($"Error al exportar a {format}:\n\n{ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Convierte un DataItem a Dictionary con solo campos no vacios + ExtraFields.
+        /// </summary>
+        private static Dictionary<string, string> ItemToRow(DataItem item)
+        {
+            var row = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["Id"] = item.Id.ToString(CultureInfo.InvariantCulture),
+                ["Fuente"] = item.Source.ToString(),
+                ["Etiqueta"] = item.Label
+            };
+
+            if (!string.IsNullOrEmpty(item.Company))   row["Company"]     = item.Company;
+            if (!string.IsNullOrEmpty(item.TypeName))   row["TypeName"]    = item.TypeName;
+            if (!string.IsNullOrEmpty(item.Cpu))        row["Cpu"]         = item.Cpu;
+            if (item.Ram != 0)                          row["Ram"]         = item.Ram.ToString(CultureInfo.InvariantCulture);
+            if (item.Price != 0)                        row["Price"]       = item.Price.ToString(CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(item.Title))      row["Title"]       = item.Title;
+            if (!string.IsNullOrEmpty(item.Genre))      row["Genre"]       = item.Genre;
+            if (item.Sales != 0)                        row["Sales"]       = item.Sales.ToString(CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(item.Platform))   row["Platform"]    = item.Platform;
+            if (!string.IsNullOrEmpty(item.Tipo))       row["Tipo"]        = item.Tipo;
+            if (!string.IsNullOrEmpty(item.Modelo))     row["Modelo"]      = item.Modelo;
+            if (item.Stock != 0)                        row["Stock"]       = item.Stock.ToString(CultureInfo.InvariantCulture);
+            if (item.Minuto != 0)                       row["Minuto"]      = item.Minuto.ToString(CultureInfo.InvariantCulture);
+            if (item.UsoCPU != 0)                       row["UsoCPU"]      = item.UsoCPU.ToString(CultureInfo.InvariantCulture);
+            if (item.Temperatura != 0)                  row["Temperatura"] = item.Temperatura.ToString(CultureInfo.InvariantCulture);
+            if (item.FPS != 0)                          row["FPS"]         = item.FPS.ToString(CultureInfo.InvariantCulture);
+            if (!string.IsNullOrEmpty(item.UserName))   row["UserName"]    = item.UserName;
+            if (!string.IsNullOrEmpty(item.Email))      row["Email"]       = item.Email;
+            if (!string.IsNullOrEmpty(item.Region))     row["Region"]      = item.Region;
+
+            foreach (var kv in item.ExtraFields)
+                if (!string.IsNullOrEmpty(kv.Key) && !row.ContainsKey(kv.Key))
+                    row[kv.Key] = kv.Value;
+
+            return row;
+        }
+
+        /// <summary>Descubre la union de todas las columnas preservando orden.</summary>
+        private static List<string> DiscoverAllColumns(List<Dictionary<string, string>> rows)
+        {
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var columns = new List<string>();
+
+            // Columnas fijas primero
+            foreach (var fix in new[] { "Id", "Fuente", "Etiqueta" })
+            { seen.Add(fix); columns.Add(fix); }
+
+            foreach (var row in rows)
+                foreach (var key in row.Keys)
+                    if (seen.Add(key))
+                        columns.Add(key);
+
+            return columns;
+        }
+
+        private static void ExportItemsToJson(List<DataItem> items, string path)
+        {
+            var rows = new List<Dictionary<string, string>>(items.Count);
+            foreach (var item in items)
+                rows.Add(ItemToRow(item));
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
+            string json = JsonSerializer.Serialize(rows, options);
+            File.WriteAllText(path, json, Encoding.UTF8);
+        }
+
+        private static void ExportItemsToTxt(List<DataItem> items, string path)
+        {
+            var rows = new List<Dictionary<string, string>>(items.Count);
+            foreach (var item in items)
+                rows.Add(ItemToRow(item));
+
+            var columns = DiscoverAllColumns(rows);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(string.Join("|", columns));
+
+            foreach (var row in rows)
+            {
+                var values = new List<string>(columns.Count);
+                foreach (var col in columns)
+                    values.Add(row.TryGetValue(col, out var v) ? v : "");
+                sb.AppendLine(string.Join("|", values));
+            }
+
+            File.WriteAllText(path, sb.ToString(), Encoding.UTF8);
+        }
+
+        private static void ExportItemsToXml(List<DataItem> items, string path)
+        {
+            var rows = new List<Dictionary<string, string>>(items.Count);
+            foreach (var item in items)
+                rows.Add(ItemToRow(item));
+
+            var columns = DiscoverAllColumns(rows);
+
+            var doc = new XmlDocument();
+            var root = doc.CreateElement("Datos");
+            doc.AppendChild(root);
+
+            foreach (var row in rows)
+            {
+                var elem = doc.CreateElement("Registro");
+                foreach (var col in columns)
+                {
+                    var child = doc.CreateElement(SanitizeXmlName(col));
+                    child.InnerText = row.TryGetValue(col, out var v) ? v : "";
+                    elem.AppendChild(child);
+                }
+                root.AppendChild(elem);
+            }
+
+            using var writer = XmlWriter.Create(path, new XmlWriterSettings
+            {
+                Indent = true,
+                Encoding = Encoding.UTF8
+            });
+            doc.Save(writer);
+        }
+
+        /// <summary>Limpia un nombre para que sea un nombre XML valido.</summary>
+        private static string SanitizeXmlName(string name)
+        {
+            var sb = new StringBuilder(name.Length);
+            foreach (char c in name)
+            {
+                if (char.IsLetterOrDigit(c) || c == '_')
+                    sb.Append(c);
+                else if (c == ' ')
+                    sb.Append('_');
+            }
+            string result = sb.ToString();
+            if (result.Length == 0 || !char.IsLetter(result[0]) && result[0] != '_')
+                result = "_" + result;
+            return result;
         }
     }
 }
