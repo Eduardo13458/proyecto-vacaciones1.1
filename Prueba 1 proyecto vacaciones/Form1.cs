@@ -36,28 +36,37 @@ namespace Prueba_1_proyecto_vacaciones
         // ════════════════════════════════════════════════════════════════════
 
         private void btnImportSqlServer_Click(object? sender, EventArgs e)
-            => ImportFromDb("SQL Server", "1433", DataReader.ReadFromSqlServer);
+            => ImportFromDb("SQL Server", "1433",
+                   DatabaseExporter.GetTablesSqlServer,
+                   (cs, t) => DataReader.ReadFromSqlServer(cs, t));
 
         private void btnImportMariaDb_Click(object? sender, EventArgs e)
-            => ImportFromDb("MariaDB", "3306", DataReader.ReadFromMariaDb);
+            => ImportFromDb("MariaDB", "3306",
+                   DatabaseExporter.GetTablesMariaDb,
+                   (cs, t) => DataReader.ReadFromMariaDb(cs, t));
 
         private void btnImportPostgre_Click(object? sender, EventArgs e)
-            => ImportFromDb("PostgreSQL", "5432", DataReader.ReadFromPostgreSql);
+            => ImportFromDb("PostgreSQL", "5432",
+                   DatabaseExporter.GetTablesPostgreSql,
+                   (cs, t) => DataReader.ReadFromPostgreSql(cs, t));
 
         private void ImportFromDb(string dbName, string defaultPort,
-            Func<string, List<DataItem>> readFunc)
+            Func<string, List<string>> getTablesFunc,
+            Func<string, string, List<DataItem>> readFunc)
         {
-            var connStr = DatabaseExporter.ShowConnectionDialog(dbName, defaultPort, "Conectar e Importar");
-            if (connStr == null) return;
+            var result = DatabaseExporter.ShowImportDialog(dbName, defaultPort, getTablesFunc);
+            if (result == null) return;
+
+            var (connStr, tableName) = result.Value;
 
             try
             {
                 Cursor = Cursors.WaitCursor;
-                var dbItems = readFunc(connStr);
+                var dbItems = readFunc(connStr, tableName);
 
                 if (dbItems.Count == 0)
                 {
-                    lblStatus.Text = $"No se obtuvieron registros de {dbName}.";
+                    lblStatus.Text = $"No se obtuvieron registros de {dbName} ({tableName}).";
                     Cursor = Cursors.Default;
                     return;
                 }
@@ -68,7 +77,7 @@ namespace Prueba_1_proyecto_vacaciones
 
                 FillDataGridView();
 
-                lblStatus.Text = $"Importados {dbItems.Count} registros desde {dbName}  " +
+                lblStatus.Text = $"Importados {dbItems.Count} registros desde {dbName} [{tableName}]  " +
                                  $"(Total: {_allItems.Count})";
                 tabControl.SelectedTab = tabData;
             }
@@ -299,30 +308,33 @@ namespace Prueba_1_proyecto_vacaciones
         {
             if (!HasData()) return;
 
-            var connStr = DatabaseExporter.ShowConnectionDialog("SQL Server", "1433");
-            if (connStr == null) return;
+            var result = DatabaseExporter.ShowExportDialog("SQL Server", "1433");
+            if (result == null) return;
 
-            ExportToDb("SQL Server", () => DatabaseExporter.ExportToSqlServer(_allItems, connStr));
+            var (connStr, tableName) = result.Value;
+            ExportToDb("SQL Server", () => DatabaseExporter.ExportToSqlServer(_allItems, connStr, tableName));
         }
 
         private void btnExportMariaDb_Click(object? sender, EventArgs e)
         {
             if (!HasData()) return;
 
-            var connStr = DatabaseExporter.ShowConnectionDialog("MariaDB", "3306");
-            if (connStr == null) return;
+            var result = DatabaseExporter.ShowExportDialog("MariaDB", "3306");
+            if (result == null) return;
 
-            ExportToDb("MariaDB", () => DatabaseExporter.ExportToMariaDb(_allItems, connStr));
+            var (connStr, tableName) = result.Value;
+            ExportToDb("MariaDB", () => DatabaseExporter.ExportToMariaDb(_allItems, connStr, tableName));
         }
 
         private void btnExportPostgre_Click(object? sender, EventArgs e)
         {
             if (!HasData()) return;
 
-            var connStr = DatabaseExporter.ShowConnectionDialog("PostgreSQL", "5432");
-            if (connStr == null) return;
+            var result = DatabaseExporter.ShowExportDialog("PostgreSQL", "5432");
+            if (result == null) return;
 
-            ExportToDb("PostgreSQL", () => DatabaseExporter.ExportToPostgreSql(_allItems, connStr));
+            var (connStr, tableName) = result.Value;
+            ExportToDb("PostgreSQL", () => DatabaseExporter.ExportToPostgreSql(_allItems, connStr, tableName));
         }
 
         private bool HasData()
@@ -845,6 +857,51 @@ namespace Prueba_1_proyecto_vacaciones
                     }
                 }
                 col.Visible = hasData;
+            }
+
+            // ── Formato de moneda y alineacion derecha ────────────────────
+            // Columnas conocidas como monetarias en DataItem
+            var currencyColumns = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "Price", "Sales"
+            };
+
+            // Palabras clave para detectar columnas monetarias en ExtraFields
+            string[] currencyKeywords =
+            [
+                "price", "cost", "precio", "costo", "monto", "importe",
+                "amount", "total", "valor", "revenue", "ingreso", "tarifa",
+                "gasto", "sales", "fee", "charge", "rate", "tasa"
+            ];
+
+            foreach (DataGridViewColumn col in dgvData.Columns)
+            {
+                if (!col.Visible) continue;
+
+                bool isCurrency = currencyColumns.Contains(col.Name);
+                if (!isCurrency)
+                {
+                    string lower = col.Name.ToLowerInvariant();
+                    foreach (var kw in currencyKeywords)
+                        if (lower.Contains(kw)) { isCurrency = true; break; }
+                }
+
+                if (!isCurrency) continue;
+
+                // Alineacion a la derecha (columna y encabezado)
+                col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                // Simbolo $ solo para columnas numericas (double/decimal)
+                if (table.Columns.Contains(col.Name))
+                {
+                    var dataType = table.Columns[col.Name].DataType;
+                    if (dataType == typeof(double) || dataType == typeof(decimal)
+                        || dataType == typeof(float))
+                    {
+                        col.DefaultCellStyle.Format = "$#,##0.00";
+                    }
+                }
             }
 
             foreach (DataGridViewRow row in dgvData.Rows)
